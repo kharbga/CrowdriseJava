@@ -5,6 +5,8 @@
  */
 package crowdrise;
 
+import GUI.JProfil;
+
 /**
  *
  * @author kouki
@@ -16,6 +18,8 @@ public class CrowdRise {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        JProfil profil = new JProfil() ;
+        profil.setVisible(true);
     }
     
 }
