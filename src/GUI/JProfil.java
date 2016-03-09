@@ -88,16 +88,19 @@ public class JProfil extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         nomAffiche = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        prenomAffiche = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        pseudoAffiche = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
+        dateAffiche = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        adresseAffiche = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        professionAffiche = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -406,27 +409,27 @@ public class JProfil extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel20.setText("Prénom  :");
 
-        jLabel21.setText("your last name");
+        prenomAffiche.setText("your last name");
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel22.setText("Pseudo :");
 
-        jLabel23.setText("your pseudo");
+        pseudoAffiche.setText("your pseudo");
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel24.setText("Date de naissance :");
 
-        jLabel25.setText("your birthday");
+        dateAffiche.setText("your birthday");
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel26.setText("Adresse :");
 
-        jLabel27.setText("your adress");
+        adresseAffiche.setText("your adress");
 
         jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel28.setText("Profession");
 
-        jLabel29.setText("your profession");
+        professionAffiche.setText("your profession");
 
         jButton1.setText("Supprimer votre profil");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -456,8 +459,8 @@ public class JProfil extends javax.swing.JFrame {
                                     .addComponent(jLabel22))
                                 .addGap(74, 74, 74)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel21)
-                                    .addComponent(jLabel23)
+                                    .addComponent(prenomAffiche)
+                                    .addComponent(pseudoAffiche)
                                     .addComponent(nomAffiche)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,9 +469,9 @@ public class JProfil extends javax.swing.JFrame {
                                     .addComponent(jLabel28))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel29)
-                                    .addComponent(jLabel27)
-                                    .addComponent(jLabel25))))))
+                                    .addComponent(professionAffiche)
+                                    .addComponent(adresseAffiche)
+                                    .addComponent(dateAffiche))))))
                 .addContainerGap(159, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -492,29 +495,73 @@ public class JProfil extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel20)
-                            .addComponent(jLabel21))
+                            .addComponent(prenomAffiche))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel22)
-                            .addComponent(jLabel23))
+                            .addComponent(pseudoAffiche))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel24)
-                            .addComponent(jLabel25))
+                            .addComponent(dateAffiche))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel26)
-                            .addComponent(jLabel27))
+                            .addComponent(adresseAffiche))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel28)
-                            .addComponent(jLabel29))))
+                            .addComponent(professionAffiche))))
                 .addGap(40, 40, 40)
                 .addComponent(jButton1)
                 .addContainerGap(117, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("Afficher Profil", jPanel2);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Id", "Notification"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                .addGap(21, 21, 21))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane5.addTab("Votre Notification", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -624,12 +671,14 @@ public class JProfil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel adresseAffiche;
     private javax.swing.JTextArea adresseTa;
     private javax.swing.JTextArea adresseTa1;
     private javax.swing.JButton ajouterProfilBtn;
     private javax.swing.JButton ajouterProfilBtn1;
     private javax.swing.JButton browseBtn;
     private javax.swing.JButton browseBtn1;
+    private javax.swing.JLabel dateAffiche;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
     private datechooser.beans.DateChooserDialog dateChooserDialog3;
@@ -652,15 +701,10 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -670,10 +714,13 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane5;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel nomAffiche;
     private javax.swing.JTextField nomTf;
     private javax.swing.JTextField nomTf1;
@@ -681,10 +728,13 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JLabel photoLabel1;
     private javax.swing.JLabel photoPathLabel;
     private javax.swing.JLabel photoPathLabel1;
+    private javax.swing.JLabel prenomAffiche;
     private javax.swing.JTextField prenomTf;
     private javax.swing.JTextField prenomTf1;
+    private javax.swing.JLabel professionAffiche;
     private javax.swing.JTextField professionTf;
     private javax.swing.JTextField professionTf1;
+    private javax.swing.JLabel pseudoAffiche;
     private javax.swing.JTextField pseudoTf;
     private javax.swing.JTextField pseudoTf1;
     // End of variables declaration//GEN-END:variables
