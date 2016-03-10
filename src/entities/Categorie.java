@@ -7,9 +7,12 @@ public class Categorie {
     private int id;
     private String nom;
 
-    public Categorie() {
+    public Categorie(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
     }
 
+ 
     public int getId() {
         return id;
     }
@@ -28,7 +31,7 @@ public class Categorie {
 
     @Override
     public String toString() {
-        return "Categorie{" + "id=" + id + ", nom=" + nom + '}';
+        return  nom ;
     }
 
     @Override

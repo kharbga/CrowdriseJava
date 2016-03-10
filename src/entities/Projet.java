@@ -39,6 +39,20 @@ public class Projet {
     public Projet() {
     }
 
+    public Projet(String titre, String description, String typeFinancement, Date dateProjet, Date deadlineProjet, String fichierProjet, int MembreId, String imageProjet, String videoProjet, int idcat) {
+
+        this.titre = titre;
+        this.description = description;
+        this.typeFinancement = typeFinancement;
+        this.dateProjet = dateProjet;
+        this.deadlineProjet = deadlineProjet;
+        this.fichierProjet = fichierProjet;
+        this.MembreId = MembreId;
+        this.imageProjet = imageProjet;
+        this.videoProjet = videoProjet;
+        this.idcat = idcat;
+    }
+
     public int getIdProjet() {
         return idProjet;
     }
