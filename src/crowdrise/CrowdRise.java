@@ -6,6 +6,7 @@
 package crowdrise;
 
 import GUI.JProfil;
+import dao.NotificationDAO;
 
 /**
  *
@@ -20,6 +21,8 @@ public class CrowdRise {
         // TODO code application logic here
         JProfil profil = new JProfil() ;
         profil.setVisible(true);
+//        NotificationDAO ndao = new NotificationDAO() ;
+//        System.out.println(ndao.findAll());
     }
     
 }
