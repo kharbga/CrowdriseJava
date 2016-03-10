@@ -7,11 +7,16 @@ package GUI;
 
 
 
+import dao.NotificationDAO;
+import dao.ProfilDAO;
+import entities.Notification;
+import entities.Profil;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +29,19 @@ public class JProfil extends javax.swing.JFrame {
      */
     public JProfil() {
         initComponents();
+        NotificationDAO ndao = new NotificationDAO();
+        ndao.findAll();
+        notificationTable.setModel(new DefaultTableModel(
+                new Object[ndao.getListeNotification().size()][], 
+                new String[]{
+                    "Id","Notification"
+                }));
+        int i = 0 ;
+        for(Notification n : ndao.getListeNotification()){
+            notificationTable.setValueAt(n.getId(), i, 0);
+            notificationTable.setValueAt(n.getMessage(), i, 1);
+            i++;
+        }
     }
 
     /**
@@ -50,7 +68,7 @@ public class JProfil extends javax.swing.JFrame {
         prenomTf = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         ajouterProfilBtn = new javax.swing.JButton();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
+        datePicker = new com.toedter.calendar.JCalendar();
         jLabel5 = new javax.swing.JLabel();
         pseudoTf = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -100,7 +118,7 @@ public class JProfil extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        notificationTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +147,11 @@ public class JProfil extends javax.swing.JFrame {
         jLabel4.setText("Date de naissance :");
 
         ajouterProfilBtn.setText("Valider");
+        ajouterProfilBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajouterProfilBtnActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Pseudo :");
 
@@ -167,7 +190,7 @@ public class JProfil extends javax.swing.JFrame {
                         .addGap(62, 62, 62)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pseudoTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(prenomTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nomTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel3)
@@ -243,7 +266,7 @@ public class JProfil extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)))
                 .addComponent(ajouterProfilBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -519,7 +542,7 @@ public class JProfil extends javax.swing.JFrame {
 
         jTabbedPane5.addTab("Afficher Profil", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        notificationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -538,10 +561,10 @@ public class JProfil extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        jScrollPane3.setViewportView(notificationTable);
+        if (notificationTable.getColumnModel().getColumnCount() > 0) {
+            notificationTable.getColumnModel().getColumn(0).setResizable(false);
+            notificationTable.getColumnModel().getColumn(1).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -635,6 +658,20 @@ public class JProfil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void ajouterProfilBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterProfilBtnActionPerformed
+        // TODO add your handling code here:
+        ProfilDAO  pdao = new ProfilDAO();
+        Profil p = new Profil();
+        p.setNom(nomTf.getText());
+        p.setPrenom(prenomTf.getText());
+        p.setAdresse(adresseTa.getText());
+        p.setDateNaissance(datePicker.getDate());
+        p.setImage(photoPathLabel.getText());
+        p.setProfession(professionTf.getText());
+        p.setPseudo(pseudoTf.getText());
+        pdao.add(p);
+    }//GEN-LAST:event_ajouterProfilBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -685,8 +722,8 @@ public class JProfil extends javax.swing.JFrame {
     private datechooser.beans.DateChooserDialog dateChooserDialog4;
     private datechooser.beans.DateChooserDialog dateChooserDialog5;
     private datechooser.beans.DateChooserDialog dateChooserDialog6;
+    private com.toedter.calendar.JCalendar datePicker;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JCalendar jCalendar1;
     private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -720,10 +757,10 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel nomAffiche;
     private javax.swing.JTextField nomTf;
     private javax.swing.JTextField nomTf1;
+    private javax.swing.JTable notificationTable;
     private javax.swing.JLabel photoLabel;
     private javax.swing.JLabel photoLabel1;
     private javax.swing.JLabel photoPathLabel;
