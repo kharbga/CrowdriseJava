@@ -97,8 +97,8 @@ public class SolutionGui extends javax.swing.JFrame {
         panelUpload = new javax.swing.JPanel();
         btnParcourir = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         idUpload = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         tP4 = new javax.swing.JPanel();
         panelCredit = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -353,9 +353,9 @@ public class SolutionGui extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Aucun fichier choisi");
-
         idUpload.setText("idUpload");
+
+        jLabel8.setText("Aucun fichier choisi");
 
         javax.swing.GroupLayout panelUploadLayout = new javax.swing.GroupLayout(panelUpload);
         panelUpload.setLayout(panelUploadLayout);
@@ -368,8 +368,8 @@ public class SolutionGui extends javax.swing.JFrame {
             .addGroup(panelUploadLayout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
                     .addComponent(btnParcourir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
                     .addComponent(idUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(183, Short.MAX_VALUE))
         );
@@ -379,9 +379,9 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addComponent(idUpload)
                 .addGap(18, 18, 18)
                 .addComponent(btnParcourir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addGap(23, 23, 23)
                 .addComponent(btnEnregistrer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -575,7 +575,7 @@ public class SolutionGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
     String filePath;
-    String fileName;
+    String fileName;    
     private void tfTitre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTitre1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfTitre1ActionPerformed
@@ -588,7 +588,7 @@ public class SolutionGui extends javax.swing.JFrame {
         filePath = f.getAbsolutePath();
         fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
         jLabel3.setText(filePath);
-
+        jLabel8.setText(fileName);
     }//GEN-LAST:event_btnParcourirActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -600,7 +600,7 @@ public class SolutionGui extends javax.swing.JFrame {
         Solution s = new Solution();
         s.setFichierSolution(filePath);
         SolutionDao sDao = new SolutionDao();
-        sDao.updateFichierSolution(s, filePath, 6);
+        sDao.updateFichierSolution(s, filePath, Integer.parseInt(idUpload.toString()));
         File uploadDir;
         uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\"+(String)cbProblem.getSelectedItem().toString());
         try {
@@ -619,8 +619,7 @@ public class SolutionGui extends javax.swing.JFrame {
 
             while ((length = inputStream.read(bytes)) > 0) {
                 outputStream.write(bytes, 0, length);
-            }
-
+            } 
             System.out.println("Done!");
 
         } catch (IOException e) {
@@ -745,7 +744,7 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -107,9 +107,7 @@ public class SolutionDao implements IDAO<Solution> {
             while (resultat.next()) {
                 p.setTitre(resultat.getString(1));
                 p.setDescription(resultat.getString(2));
-                p.setSalaire(resultat.getDouble(3));
-                p.setEtat(resultat.getString(4));
-                p.setIdSolution(resultat.getInt(5));
+                p.setIdSolution(resultat.getInt(3));
                 list.add(p);
                 p = new Solution();
             }
