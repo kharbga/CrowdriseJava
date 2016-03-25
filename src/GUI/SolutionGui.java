@@ -98,6 +98,7 @@ public class SolutionGui extends javax.swing.JFrame {
         btnParcourir = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        idUpload = new javax.swing.JLabel();
         tP4 = new javax.swing.JPanel();
         panelCredit = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -321,6 +322,11 @@ public class SolutionGui extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Demandes envoyées", tP2);
 
+        tabDemandeAcceptee.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabDemandeAccepteeMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tabDemandeAcceptee);
 
         jLabel7.setText("Problème:");
@@ -349,25 +355,29 @@ public class SolutionGui extends javax.swing.JFrame {
 
         jLabel9.setText("Aucun fichier choisi");
 
+        idUpload.setText("idUpload");
+
         javax.swing.GroupLayout panelUploadLayout = new javax.swing.GroupLayout(panelUpload);
         panelUpload.setLayout(panelUploadLayout);
         panelUploadLayout.setHorizontalGroup(
             panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelUploadLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnParcourir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addContainerGap(183, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelUploadLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnEnregistrer)
                 .addGap(23, 23, 23))
+            .addGroup(panelUploadLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnParcourir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(idUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         panelUploadLayout.setVerticalGroup(
             panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUploadLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addComponent(idUpload)
+                .addGap(18, 18, 18)
                 .addComponent(btnParcourir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -592,7 +602,7 @@ public class SolutionGui extends javax.swing.JFrame {
         SolutionDao sDao = new SolutionDao();
         sDao.updateFichierSolution(s, filePath, 6);
         File uploadDir;
-        uploadDir = new File("c:\\Uploads");
+        uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\"+(String)cbProblem.getSelectedItem().toString());
         try {
             // read this file into InputStream
             inputStream = new FileInputStream(file);
@@ -654,27 +664,19 @@ public class SolutionGui extends javax.swing.JFrame {
         model.setColumnIdentifiers(new Object[]{"ID", "Offre", "Description"});
         Object[] row = new Object[3];
         for (int i = 0; i < list.size(); i++) {
-                row[0] = list.get(i).getIdSolution();
-                row[1] = list.get(i).getTitre();
-                row[2] = list.get(i).getDescription();
-                model.addRow(row);
-            
+            row[0] = list.get(i).getIdSolution();
+            row[1] = list.get(i).getTitre();
+            row[2] = list.get(i).getDescription();
+            model.addRow(row);
 
         }
         tabDemandeAcceptee.setModel(model);
     }//GEN-LAST:event_cbProblemActionPerformed
-    private void loadAllProbleme() {
 
-        try {
-            ResultSet res = sDao.getAllProbleme();
-            while (res.next()) {
-                cbProblem.addItem(res.getString(2));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+    private void tabDemandeAccepteeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDemandeAccepteeMouseClicked
+        int elementselectionner = tabDemandeAcceptee.getSelectedRow();
+        idUpload.setText("" + tabDemandeAcceptee.getValueAt(elementselectionner, 0));
+    }//GEN-LAST:event_tabDemandeAccepteeMouseClicked
 
     private void loadAcceptedProblems() {
 
@@ -731,6 +733,7 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JButton btnParcourir;
     private javax.swing.JButton btnSupprimer;
     private javax.swing.JComboBox cbProblem;
+    private javax.swing.JLabel idUpload;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
