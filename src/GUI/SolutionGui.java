@@ -26,11 +26,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import utils.DataSource;
 
 /**
@@ -50,7 +52,7 @@ public class SolutionGui extends javax.swing.JFrame {
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         tfId.setVisible(false);
         loadAcceptedProblems();
-        
+
     }
 
     /**
@@ -319,16 +321,10 @@ public class SolutionGui extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Demandes envoyées", tP2);
 
-        tabDemandeAcceptee.setModel(new OffreModels());
         jScrollPane4.setViewportView(tabDemandeAcceptee);
 
         jLabel7.setText("Problème:");
 
-        cbProblem.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbProblemItemStateChanged(evt);
-            }
-        });
         cbProblem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbProblemActionPerformed(evt);
@@ -652,28 +648,21 @@ public class SolutionGui extends javax.swing.JFrame {
     }//GEN-LAST:event_tabDemandeEnvoyeMouseClicked
 
     private void cbProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProblemActionPerformed
-
-
-    }//GEN-LAST:event_cbProblemActionPerformed
-
-    private void cbProblemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbProblemItemStateChanged
-
-        int i=0;
-        try {
-
-            ResultSet resultat = sDao.getAcceptedProblems();
-            while (resultat.next()) {
-                i = resultat.getInt(1);
-            }
+        SolutionDao mq = new SolutionDao();
+        ArrayList<Solution> list = mq.getDataSolution((String) cbProblem.getSelectedItem().toString());
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"ID", "Offre", "Description"});
+        Object[] row = new Object[3];
+        for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getIdSolution();
+                row[1] = list.get(i).getTitre();
+                row[2] = list.get(i).getDescription();
+                model.addRow(row);
             
-            
-//            tabDemandeEnvoye.setModel(new DemandeAccepteeModel());
 
-        } catch (SQLException ex) {
-            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }//GEN-LAST:event_cbProblemItemStateChanged
+        tabDemandeAcceptee.setModel(model);
+    }//GEN-LAST:event_cbProblemActionPerformed
     private void loadAllProbleme() {
 
         try {
@@ -686,6 +675,7 @@ public class SolutionGui extends javax.swing.JFrame {
         }
 
     }
+
     private void loadAcceptedProblems() {
 
         try {
