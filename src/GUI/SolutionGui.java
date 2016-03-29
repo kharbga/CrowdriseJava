@@ -597,10 +597,8 @@ public class SolutionGui extends javax.swing.JFrame {
         BufferedReader br = null;
         OutputStream outputStream = null;
         File file = new File(filePath);
-        Solution s = new Solution();
-        s.setFichierSolution(filePath);
         SolutionDao sDao = new SolutionDao();
-        sDao.updateFichierSolution(s, filePath, Integer.parseInt(idUpload.toString()));
+        sDao.updateFichierSolution( filePath, Integer.parseInt(idUpload.getText()));
         File uploadDir;
         uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\"+(String)cbProblem.getSelectedItem().toString());
         try {

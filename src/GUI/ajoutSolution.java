@@ -140,7 +140,7 @@ public class ajoutSolution extends javax.swing.JFrame {
         Solution s = new Solution();
         s.setFichierSolution(filePath);
         SolutionDao sDao = new SolutionDao();
-        sDao.updateFichierSolution(s, filePath, 6);
+        sDao.updateFichierSolution( filePath, 6);
         File uploadDir;
         uploadDir = new File("c:\\Uploads");
         try {

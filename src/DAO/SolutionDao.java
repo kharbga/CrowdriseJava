@@ -1,6 +1,7 @@
 package DAO;
 
 import Idao.IDAO;
+import entities.Probleme;
 import entities.Solution;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,13 +42,15 @@ public class SolutionDao implements IDAO<Solution> {
         }
     }
 
-    public void updateFichierSolution(Solution t, String file, int id) {
-        String req = "UPDATE solution SET fichier_solution = ? WHERE id_solution=" + id;
+    public void updateFichierSolution(String file, int id) {
+        String req = "UPDATE solution SET fichier_solution = ? WHERE id_solution=?";
         try {
-            pst = connection.prepareStatement(req);
 
-            pst.setString(1, t.getFichierSolution());
+            pst = connection.prepareStatement(req);
+            pst.setString(1, file);
+            pst.setInt(2, id);
             pst.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(SolutionDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,9 +182,36 @@ public class SolutionDao implements IDAO<Solution> {
         }
     }
 
-    public ResultSet getAllProbleme() {
+    public List<Probleme> getAllProblems(int id) {
+        
+        List<Probleme> listeProbleme = new ArrayList<Probleme>();
+        Probleme p = new Probleme();
+
         try {
-            pst = connection.prepareStatement("SELECT id_probleme,titre FROM probleme");
+            String req = "SELECT `id_probleme`, `titre`, `description`, `date_probleme`, `deadline_probleme` FROM `probleme` WHERE membre_id=?";
+            PreparedStatement pst = connection.prepareStatement(req);
+            pst.setInt(1, id);
+            ResultSet resultat = pst.executeQuery();
+
+            while (resultat.next()) {
+                p.setIdProbleme(resultat.getInt(1));
+                p.setTitre(resultat.getString(2));
+                p.setDescription(resultat.getString(3));
+                //Voir 
+//                p.setDateProbleme(resultat.getDate(4));
+//                p.setDeadlineProbleme(resultat.getDate(5));               
+                listeProbleme.add(p);
+                p = new Probleme();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SolutionDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listeProbleme;
+    }
+
+    public ResultSet getAcceptedProblems() {
+        try {
+            pst = connection.prepareStatement("SELECT s.titre,s.description,s.id_solution,s.id_probleme,s.Membre_id,p.titre FROM solution s, probleme p where s.id_probleme = p.id_probleme and s.etat='Acceptee' ");
 
             ResultSet allProb = pst.executeQuery();
             return allProb;
@@ -190,10 +220,10 @@ public class SolutionDao implements IDAO<Solution> {
         }
         return null;
     }
-
-    public ResultSet getAcceptedProblems() {
+    
+    public ResultSet getProblems() {
         try {
-            pst = connection.prepareStatement("SELECT s.titre,s.description,s.id_solution,s.id_probleme,s.Membre_id,p.titre FROM solution s, probleme p where s.id_probleme = p.id_probleme and s.etat='Acceptee' ");
+            pst = connection.prepareStatement("SELECT DISTINCT s.titre,s.description,s.id_solution,s.id_probleme,s.Membre_id,p.titre FROM solution s, probleme p where s.id_probleme = p.id_probleme and s.etat='En attente' ");
 
             ResultSet allProb = pst.executeQuery();
             return allProb;
@@ -229,8 +259,8 @@ public class SolutionDao implements IDAO<Solution> {
     }
 
     public String getTitleProblemByID(int i) {
-        
-        String s ="";
+
+        String s = "";
         try {
             String req = ("SELECT titre FROM probleme p where id_probleme=?");
             PreparedStatement pst = connection.prepareStatement(req);

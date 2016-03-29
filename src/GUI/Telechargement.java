@@ -37,6 +37,7 @@ public class Telechargement extends javax.swing.JFrame {
         list1.add(f);
         }
         
+        
         this.setResizable(false);
     }
 

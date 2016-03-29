@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import Utils.DemandeEnvoyerModel;
+import Utils.ProblemeModel;
 import entities.Probleme;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +42,10 @@ import utils.DataSource;
  */
 public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
+    String selectedFileName;
+
     SolutionDao sDao = new SolutionDao();
+    File uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\" );
 
     /**
      * Creates new form SolutionGui
@@ -49,7 +53,13 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     public SolutionGuiSubmitter() {
         initComponents();
         this.setResizable(false);
+        loadAcceptedProblems();
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+
+        String files[] = uploadDir.list();
+        for (String f : files) {
+            list1.add(f);
+        }
     }
 
     /**
@@ -64,25 +74,33 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         tp3 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tabDemandeAcceptee = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         list1 = new java.awt.List();
         btnParcourir = new javax.swing.JButton();
+        idProb = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableProblemes = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        tp4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tabSolutions = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        cbProblem = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("Espace Solver");
-
-        tabDemandeAcceptee.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabDemandeAccepteeMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(tabDemandeAcceptee);
+        jLabel1.setText("Espace Submitter");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Choisissez un fichier"));
+
+        list1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                list1InputMethodTextChanged(evt);
+            }
+        });
 
         btnParcourir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rayhana\\Desktop\\3A18\\PIDEV\\java\\1457831052_BT_save.png")); // NOI18N
         btnParcourir.setText("Enregistrer sous ...");
@@ -92,52 +110,134 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
             }
         });
 
+        idProb.setText("idProb");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnParcourir)
-                        .addGap(77, 77, 77))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 35, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnParcourir)
+                                .addGap(77, 77, 77))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(idProb)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addComponent(idProb)
+                .addGap(29, 29, 29)
                 .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(btnParcourir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tableProblemes.setModel(new ProblemeModel());
+        tableProblemes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableProblemesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableProblemes);
+
         javax.swing.GroupLayout tp3Layout = new javax.swing.GroupLayout(tp3);
         tp3.setLayout(tp3Layout);
         tp3Layout.setHorizontalGroup(
             tp3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tp3Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         tp3Layout.setVerticalGroup(
             tp3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tp3Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(tp3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Touts les offres", tp3);
+
+        tabSolutions.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabSolutionsMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tabSolutions);
+
+        jLabel7.setText("Problème:");
+
+        cbProblem.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbProblemItemStateChanged(evt);
+            }
+        });
+        cbProblem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbProblemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout tp4Layout = new javax.swing.GroupLayout(tp4);
+        tp4.setLayout(tp4Layout);
+        tp4Layout.setHorizontalGroup(
+            tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tp4Layout.createSequentialGroup()
+                .addGroup(tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tp4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(tp4Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(394, Short.MAX_VALUE))
+        );
+        tp4Layout.setVerticalGroup(
+            tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tp4Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cbProblem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(tp4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(tp4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 87, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Consulter offres", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,26 +265,20 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tabDemandeAccepteeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDemandeAccepteeMouseClicked
-        
-    }//GEN-LAST:event_tabDemandeAccepteeMouseClicked
-
     private void btnParcourirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParcourirActionPerformed
-        String selectedFileName = list1.getSelectedItem();
+        selectedFileName = list1.getSelectedItem();
         File selectedFile = new File(selectedFileName);
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Specify a file to save");
         fileChooser.setSelectedFile(selectedFile);
         int userSelection = fileChooser.showSaveDialog(this);
 
-        File uploadDir = new File("c:\\Uploads"); //Ajouter pour enlever l erreur a modifier avec toute l interface.
-
         if (userSelection == JFileChooser.APPROVE_OPTION) {
 
             InputStream inputStream = null;
             BufferedReader br = null;
             OutputStream outputStream = null;
-            String filePath=uploadDir.getAbsolutePath()+File.separator+selectedFileName;
+            String filePath = uploadDir.getAbsolutePath() + File.separator + selectedFileName;
             File file = new File(filePath);
 
             try {
@@ -192,13 +286,12 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                 inputStream = new FileInputStream(file);
 
                 // write the inputStream to a FileOutputStream
-
-                outputStream =  new FileOutputStream(new File(fileChooser.getCurrentDirectory()+File.separator+selectedFileName));
+                outputStream = new FileOutputStream(new File(fileChooser.getCurrentDirectory() + File.separator + selectedFileName));
 
                 int length;
                 byte[] bytes = new byte[1024];
 
-                while ((length = inputStream.read(bytes))>0) {
+                while ((length = inputStream.read(bytes)) > 0) {
                     outputStream.write(bytes, 0, length);
                 }
 
@@ -222,10 +315,68 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
                 }
             }
-
-            System.out.println("Save as file: " + fileChooser.getCurrentDirectory()+File.separator+selectedFileName);
         }
     }//GEN-LAST:event_btnParcourirActionPerformed
+
+    private void tableProblemesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProblemesMouseClicked
+        int elementselectionner = tableProblemes.getSelectedRow();
+        idProb.setText("" + tableProblemes.getValueAt(elementselectionner, 0));
+    }//GEN-LAST:event_tableProblemesMouseClicked
+
+    private void list1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_list1InputMethodTextChanged
+
+    }//GEN-LAST:event_list1InputMethodTextChanged
+
+    private void tabSolutionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabSolutionsMouseClicked
+        int elementselectionner = tabSolutions.getSelectedRow();
+//        idUpload.setText("" + tabSolutions.getValueAt(elementselectionner, 0));
+    }//GEN-LAST:event_tabSolutionsMouseClicked
+
+    private void cbProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProblemActionPerformed
+        SolutionDao mq = new SolutionDao();
+        ArrayList<Solution> list = mq.getDataSolution((String) cbProblem.getSelectedItem().toString());
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new Object[]{"ID", "Offre", "Description"});
+        Object[] row = new Object[3];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getIdSolution();
+            row[1] = list.get(i).getTitre();
+            row[2] = list.get(i).getDescription();
+            model.addRow(row);
+
+        }
+        tabSolutions.setModel(model);
+    }//GEN-LAST:event_cbProblemActionPerformed
+
+    private void cbProblemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbProblemItemStateChanged
+        int i = 0;
+        try {
+
+            ResultSet resultat = sDao.getProblems();
+            while (resultat.next()) {
+                i = resultat.getInt(1);
+            }
+
+//            tabDemandeEnvoye.setModel(new DemandeAccepteeModel());
+        } catch (SQLException ex) {
+            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbProblemItemStateChanged
+
+    private void loadAcceptedProblems() {
+
+        try {
+            ResultSet res = sDao.getProblems();
+            while (res.next()) {
+                cbProblem.addItem(res.getString(6));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+
     String filePath;
     String fileName;
 
@@ -267,13 +418,20 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnParcourir;
+    private javax.swing.JComboBox cbProblem;
+    private javax.swing.JLabel idProb;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private java.awt.List list1;
-    private javax.swing.JTable tabDemandeAcceptee;
+    private javax.swing.JTable tabSolutions;
+    private javax.swing.JTable tableProblemes;
     private javax.swing.JPanel tp3;
+    private javax.swing.JPanel tp4;
     // End of variables declaration//GEN-END:variables
 
 }
