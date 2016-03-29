@@ -8,6 +8,7 @@ package Utils;
 import DAO.SolutionDao;
 import entities.Probleme;
 import entities.Solution;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -61,6 +62,10 @@ public class ProblemeModel extends AbstractTableModel {
                 return listSolutions.get(rowIndex).getDeadlineProbleme();
         }
         return null;
+    }
+    
+    public void telechargement(File uploadFile){
+    
     }
 
 }

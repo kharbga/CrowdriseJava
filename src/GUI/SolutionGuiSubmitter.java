@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import utils.DataSource;
@@ -43,9 +44,8 @@ import utils.DataSource;
 public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
     String selectedFileName;
-
+    File uploadDir;
     SolutionDao sDao = new SolutionDao();
-    File uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\" );
 
     /**
      * Creates new form SolutionGui
@@ -54,12 +54,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         loadAcceptedProblems();
-        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
 
-        String files[] = uploadDir.list();
-        for (String f : files) {
-            list1.add(f);
-        }
     }
 
     /**
@@ -99,6 +94,11 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 list1InputMethodTextChanged(evt);
+            }
+        });
+        list1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                list1ActionPerformed(evt);
             }
         });
 
@@ -147,6 +147,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         tableProblemes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProblemesMouseClicked(evt);
+                tableProblemesActionPerformed(evt);
             }
         });
         jScrollPane1.setViewportView(tableProblemes);
@@ -272,7 +273,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         fileChooser.setDialogTitle("Specify a file to save");
         fileChooser.setSelectedFile(selectedFile);
         int userSelection = fileChooser.showSaveDialog(this);
-
+        File uploadDir = new File("C:\\");
         if (userSelection == JFileChooser.APPROVE_OPTION) {
 
             InputStream inputStream = null;
@@ -320,8 +321,15 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
     private void tableProblemesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProblemesMouseClicked
         int elementselectionner = tableProblemes.getSelectedRow();
-        idProb.setText("" + tableProblemes.getValueAt(elementselectionner, 0));
+        idProb.setText("" + tableProblemes.getValueAt(elementselectionner, 1));
+
+//        telechargement(uploadDir);
+
     }//GEN-LAST:event_tableProblemesMouseClicked
+    public String prob() {
+        return idProb.getText();
+    }
+
 
     private void list1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_list1InputMethodTextChanged
 
@@ -349,19 +357,33 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     }//GEN-LAST:event_cbProblemActionPerformed
 
     private void cbProblemItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbProblemItemStateChanged
-        int i = 0;
-        try {
-
-            ResultSet resultat = sDao.getProblems();
-            while (resultat.next()) {
-                i = resultat.getInt(1);
-            }
-
-//            tabDemandeEnvoye.setModel(new DemandeAccepteeModel());
-        } catch (SQLException ex) {
-            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
+////        int i = 0;
+////        try {
+////
+////            ResultSet resultat = sDao.getProblems();
+////            while (resultat.next()) {
+////                i = resultat.getInt(1);
+////            }
+////
+//////            tabDemandeEnvoye.setModel(new DemandeAccepteeModel());
+////        } catch (SQLException ex) {
+////            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
+////        }
     }//GEN-LAST:event_cbProblemItemStateChanged
+
+    private void list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list1ActionPerformed
+
+    }//GEN-LAST:event_list1ActionPerformed
+
+    private void tableProblemesActionPerformed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProblemesActionPerformed
+        File uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\" + idProb.getText());
+        list1.removeAll();
+        list1.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        String files[] = uploadDir.list();
+        for (String f : files) {
+            list1.add(f);
+        }
+    }//GEN-LAST:event_tableProblemesActionPerformed
 
     private void loadAcceptedProblems() {
 
@@ -375,7 +397,6 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         }
 
     }
-    
 
     String filePath;
     String fileName;
