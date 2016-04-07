@@ -51,6 +51,7 @@ public class SolutionGui extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         tfId.setVisible(false);
+        idUpload2.setVisible(false);
         loadAcceptedProblems();
 
     }
@@ -97,17 +98,17 @@ public class SolutionGui extends javax.swing.JFrame {
         panelUpload = new javax.swing.JPanel();
         btnParcourir = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
-        idUpload = new javax.swing.JLabel();
+        idUpload2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         tP4 = new javax.swing.JPanel();
         panelCredit = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtUser = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -353,7 +354,7 @@ public class SolutionGui extends javax.swing.JFrame {
             }
         });
 
-        idUpload.setText("idUpload");
+        idUpload2.setText("idUpload");
 
         jLabel8.setText("Aucun fichier choisi");
 
@@ -370,13 +371,13 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addGroup(panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(btnParcourir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idUpload2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(183, Short.MAX_VALUE))
         );
         panelUploadLayout.setVerticalGroup(
             panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUploadLayout.createSequentialGroup()
-                .addComponent(idUpload)
+                .addComponent(idUpload2)
                 .addGap(18, 18, 18)
                 .addComponent(btnParcourir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -423,15 +424,21 @@ public class SolutionGui extends javax.swing.JFrame {
 
         panelCredit.setBorder(javax.swing.BorderFactory.createTitledBorder("Entrez vos coordonnées"));
 
-        jLabel12.setText("E-mail:");
+        jLabel12.setText("Nom de l'utilisateur:");
 
         jLabel13.setText("Mot de passe:");
+
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Code:");
 
         jButton4.setText("Valider");
 
-        jPasswordField1.setText("jPasswordField1");
+        txtPass.setText("jPasswordField1");
 
         javax.swing.GroupLayout panelCreditLayout = new javax.swing.GroupLayout(panelCredit);
         panelCredit.setLayout(panelCreditLayout);
@@ -445,12 +452,12 @@ public class SolutionGui extends javax.swing.JFrame {
                     .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(panelCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                    .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
                     .addGroup(panelCreditLayout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(jButton4))
-                    .addComponent(jPasswordField1))
+                    .addComponent(txtPass))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCreditLayout.setVerticalGroup(
@@ -459,11 +466,11 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(panelCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(panelCreditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel14)
@@ -598,7 +605,7 @@ public class SolutionGui extends javax.swing.JFrame {
         OutputStream outputStream = null;
         File file = new File(filePath);
         SolutionDao sDao = new SolutionDao();
-        sDao.updateFichierSolution( filePath, Integer.parseInt(idUpload.getText()));
+        sDao.updateFichierSolution( filePath, Integer.parseInt(idUpload2.getText()));
         File uploadDir;
         uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\"+(String)cbProblem.getSelectedItem().toString());
         try {
@@ -670,8 +677,12 @@ public class SolutionGui extends javax.swing.JFrame {
 
     private void tabDemandeAccepteeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDemandeAccepteeMouseClicked
         int elementselectionner = tabDemandeAcceptee.getSelectedRow();
-        idUpload.setText("" + tabDemandeAcceptee.getValueAt(elementselectionner, 0));
+        idUpload2.setText("" + tabDemandeAcceptee.getValueAt(elementselectionner, 0));
     }//GEN-LAST:event_tabDemandeAccepteeMouseClicked
+
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserActionPerformed
 
     private void loadAcceptedProblems() {
 
@@ -728,7 +739,7 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JButton btnParcourir;
     private javax.swing.JButton btnSupprimer;
     private javax.swing.JComboBox cbProblem;
-    private javax.swing.JLabel idUpload;
+    private javax.swing.JLabel idUpload2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
@@ -741,13 +752,11 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel msgTab1;
     private javax.swing.JPanel panelAjoutDemande;
@@ -766,6 +775,8 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JTextField tfTitre;
     private javax.swing.JTextField tfTitre1;
     private javax.swing.JPanel tp3;
+    private javax.swing.JPasswordField txtPass;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
 }

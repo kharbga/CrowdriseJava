@@ -59,6 +59,8 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     public SolutionGuiSubmitter() {
         initComponents();
         this.setResizable(false);
+        idProb.setVisible(false);
+        idSolution.setVisible(false);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         loadProblemsSubmitter();
     }
@@ -476,7 +478,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         int ligneSelectionne = tableProblemes.getSelectedRow();
         Object l = tableProblemes.getValueAt(ligneSelectionne, 0);
 
-        String accessToken = "CAACEdEose0cBANs10f7fLtpfpXvF03ZA5By77lvJin0TEtz7oZBD6DncmPMH6iG1dFgWWZAgUYw68ryuF1HZBQAQ8SD43j91dZAoZCGhFndwHodEoXPRcvnZC3QdKIZCQfNmUg5ta11ENKRkIRSnQcbgpVqb2pq89yJQC1pbFpDgvcmyRZCYlpV7CHwFcfUGoeBttYvm2Xv3WrgZDZD";
+        String accessToken = "CAACEdEose0cBAFv7KSZAZAjGC2uDZCpycZBAaWKVY7B0B4cLbNegxb3TMZC1DZCcazM0bq8NIQiZBUJLjOZArrZCyzAFXZAZC5ZBATZC1Y79LKu5hMwE9saPlXZCtdZAuuSOmOcfpdFI6VfzeOQiqMd0SDs5E2iXyd7W4suQIexWgiLQzKL4nUCyZAlIxo5qU9M9tIoxONlMZAneD6MhszAZDZD";
         FacebookClient fbClient = new DefaultFacebookClient(accessToken);
         User me = fbClient.fetchObject("me", User.class);
         Page userPgae = fbClient.fetchObject("213885155652908", Page.class);
