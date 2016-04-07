@@ -639,9 +639,7 @@ public class SolutionGui extends javax.swing.JFrame {
             }
         }
 
-        this.setVisible(false);
-        Telechargement t = new Telechargement();
-        t.setVisible(true);
+        JOptionPane.showMessageDialog(null, "Votre offre a été bien enregistré.");
 
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 

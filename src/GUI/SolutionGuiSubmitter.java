@@ -22,6 +22,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import Utils.DemandeEnvoyerModel;
 import Utils.ProblemeModel;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.types.FacebookType;
+import com.restfb.types.Page;
+import com.restfb.types.User;
 import entities.Probleme;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,8 +59,8 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     public SolutionGuiSubmitter() {
         initComponents();
         this.setResizable(false);
-        loadAcceptedProblems();
-
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        loadProblemsSubmitter();
     }
 
     /**
@@ -73,6 +79,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         list1 = new java.awt.List();
         btnParcourir = new javax.swing.JButton();
         idProb = new javax.swing.JLabel();
+        fbBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProblemes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -81,6 +88,10 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         tabSolutions = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         cbProblem = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
+        btnRefuser = new javax.swing.JButton();
+        btnAccepter = new javax.swing.JButton();
+        idSolution = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,6 +123,14 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
         idProb.setText("idProb");
 
+        fbBtn.setBackground(new java.awt.Color(51, 102, 255));
+        fbBtn.setText("Partager");
+        fbBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fbBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -131,6 +150,10 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(idProb)
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fbBtn)
+                .addGap(116, 116, 116))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +163,9 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                 .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(btnParcourir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(fbBtn)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         tableProblemes.setModel(new ProblemeModel());
@@ -170,7 +195,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                 .addGroup(tp3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Touts les offres", tp3);
@@ -195,6 +220,52 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Choisissez une action"));
+
+        btnRefuser.setText("Refuser");
+        btnRefuser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefuserActionPerformed(evt);
+            }
+        });
+
+        btnAccepter.setText("Accepter");
+        btnAccepter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccepterActionPerformed(evt);
+            }
+        });
+
+        idSolution.setText("idSolution");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnAccepter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRefuser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(idSolution)))
+                .addContainerGap(144, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(idSolution)
+                .addGap(18, 18, 18)
+                .addComponent(btnAccepter)
+                .addGap(18, 18, 18)
+                .addComponent(btnRefuser)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout tp4Layout = new javax.swing.GroupLayout(tp4);
         tp4.setLayout(tp4Layout);
         tp4Layout.setHorizontalGroup(
@@ -203,13 +274,15 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                 .addGroup(tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(tp4Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(tp4Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(394, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         tp4Layout.setVerticalGroup(
             tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,8 +292,12 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbProblem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(tp4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tp4Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -234,8 +311,8 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(tp4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 87, Short.MAX_VALUE))
+                .addComponent(tp4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Consulter offres", jPanel1);
@@ -267,20 +344,20 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnParcourirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParcourirActionPerformed
+        File uploadDir2 = new File("C:\\wamp\\www\\Uploads\\Solutions\\" + idProb.getText());
         selectedFileName = list1.getSelectedItem();
         File selectedFile = new File(selectedFileName);
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Specify a file to save");
         fileChooser.setSelectedFile(selectedFile);
         int userSelection = fileChooser.showSaveDialog(this);
-        File uploadDir = new File("C:\\");
         if (userSelection == JFileChooser.APPROVE_OPTION) {
 
             InputStream inputStream = null;
             BufferedReader br = null;
             OutputStream outputStream = null;
-            String filePath = uploadDir.getAbsolutePath() + File.separator + selectedFileName;
-            File file = new File(filePath);
+            String filePath2 = uploadDir2.getAbsolutePath() + File.separator + selectedFileName;
+            File file = new File(filePath2);
 
             try {
                 // read this file into InputStream
@@ -337,12 +414,12 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
     private void tabSolutionsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabSolutionsMouseClicked
         int elementselectionner = tabSolutions.getSelectedRow();
-//        idUpload.setText("" + tabSolutions.getValueAt(elementselectionner, 0));
+        idSolution.setText("" + tabSolutions.getValueAt(elementselectionner, 0));
     }//GEN-LAST:event_tabSolutionsMouseClicked
 
     private void cbProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProblemActionPerformed
         SolutionDao mq = new SolutionDao();
-        ArrayList<Solution> list = mq.getDataSolution((String) cbProblem.getSelectedItem().toString());
+        ArrayList<Solution> list = mq.getDataSolutionSubmitter((String) cbProblem.getSelectedItem().toString(), 2);
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{"ID", "Offre", "Description"});
         Object[] row = new Object[3];
@@ -385,12 +462,59 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tableProblemesActionPerformed
 
-    private void loadAcceptedProblems() {
+    private void btnRefuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefuserActionPerformed
+        int id = Integer.parseInt(idSolution.getText());
+        SolutionDao sDao = new SolutionDao();
+        try {
+            sDao.refuserSolution(id);
+            JOptionPane.showMessageDialog(null, "Solution Refusée");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur");
+        }    }//GEN-LAST:event_btnRefuserActionPerformed
+
+    private void fbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fbBtnActionPerformed
+        int ligneSelectionne = tableProblemes.getSelectedRow();
+        Object l = tableProblemes.getValueAt(ligneSelectionne, 0);
+
+        String accessToken = "CAACEdEose0cBANs10f7fLtpfpXvF03ZA5By77lvJin0TEtz7oZBD6DncmPMH6iG1dFgWWZAgUYw68ryuF1HZBQAQ8SD43j91dZAoZCGhFndwHodEoXPRcvnZC3QdKIZCQfNmUg5ta11ENKRkIRSnQcbgpVqb2pq89yJQC1pbFpDgvcmyRZCYlpV7CHwFcfUGoeBttYvm2Xv3WrgZDZD";
+        FacebookClient fbClient = new DefaultFacebookClient(accessToken);
+        User me = fbClient.fetchObject("me", User.class);
+        Page userPgae = fbClient.fetchObject("213885155652908", Page.class);
+
+        System.out.println(me.getName());
+        System.out.println(me.getBirthday());
+
+        String demande = (String) tableProblemes.getValueAt(ligneSelectionne, 1);
+        String description = (String) tableProblemes.getValueAt(ligneSelectionne, 2);
+        String dateMise = (String) tableProblemes.getValueAt(ligneSelectionne, 3);
+        String dateDeadLine = (String) tableProblemes.getValueAt(ligneSelectionne, 4);
+
+        fbClient.publish("213885155652908" + "/feed", FacebookType.class,
+                Parameter.with("message", "Demande postée le : " + dateMise
+                        + "\nPour le : " + dateDeadLine
+                        + "\nDu problème: " + demande
+                        + "\nA propos de : " + description));
+
+        JOptionPane.showMessageDialog(null, "Publier avec succé sur Facebook!");
+    }//GEN-LAST:event_fbBtnActionPerformed
+
+    private void btnAccepterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccepterActionPerformed
+        int id = Integer.parseInt(idSolution.getText());
+        SolutionDao sDao = new SolutionDao();
+        try {
+            sDao.accepterSolution(id);
+            JOptionPane.showMessageDialog(null, "Solution Acceptée");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erreur");
+        }
+    }//GEN-LAST:event_btnAccepterActionPerformed
+
+    private void loadProblemsSubmitter() {
 
         try {
-            ResultSet res = sDao.getProblems();
+            ResultSet res = sDao.getProblemsSubmitter(2);
             while (res.next()) {
-                cbProblem.addItem(res.getString(6));
+                cbProblem.addItem(res.getString(1));
             }
         } catch (SQLException ex) {
             Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
@@ -438,13 +562,18 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAccepter;
     private javax.swing.JButton btnParcourir;
+    private javax.swing.JButton btnRefuser;
     private javax.swing.JComboBox cbProblem;
+    private javax.swing.JButton fbBtn;
     private javax.swing.JLabel idProb;
+    private javax.swing.JLabel idSolution;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
