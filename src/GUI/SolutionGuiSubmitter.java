@@ -478,7 +478,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         int ligneSelectionne = tableProblemes.getSelectedRow();
         Object l = tableProblemes.getValueAt(ligneSelectionne, 0);
 
-        String accessToken = "CAACEdEose0cBAFv7KSZAZAjGC2uDZCpycZBAaWKVY7B0B4cLbNegxb3TMZC1DZCcazM0bq8NIQiZBUJLjOZArrZCyzAFXZAZC5ZBATZC1Y79LKu5hMwE9saPlXZCtdZAuuSOmOcfpdFI6VfzeOQiqMd0SDs5E2iXyd7W4suQIexWgiLQzKL4nUCyZAlIxo5qU9M9tIoxONlMZAneD6MhszAZDZD";
+        String accessToken = "CAACEdEose0cBADTDNJ6XcIqVFlao2wjDqsroXNJ9yu0N4JLZAUZCpb3pOQH9t4oZCAWsh3ZCzPFarPsjbMXCr3X9hJ4ZCOHUBZCwkIXjB3ziadtljdyf2QuHz2xZBiwNelMPeXogcbKFcwzkSjzgLSadIZCknDPrghZBZBAlDI4xZBKWHxdZAD7L58jyuupVsYWWfJjuEzquYhCODwZDZD";
         FacebookClient fbClient = new DefaultFacebookClient(accessToken);
         User me = fbClient.fetchObject("me", User.class);
         Page userPgae = fbClient.fetchObject("213885155652908", Page.class);
