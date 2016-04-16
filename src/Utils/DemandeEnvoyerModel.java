@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class DemandeEnvoyerModel extends AbstractTableModel {
 
     List<Solution> listDemande;
-    String[] colonnes = {"Id","Titre", "Salaire", "Description", "Etat"};
+    String[] colonnes = {"Id","Titre", "Rénumération", "Description", "Etat"};
 
     public DemandeEnvoyerModel() {
         SolutionDao sDao = new SolutionDao();

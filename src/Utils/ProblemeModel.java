@@ -63,9 +63,5 @@ public class ProblemeModel extends AbstractTableModel {
         }
         return null;
     }
-    
-    public void telechargement(File uploadFile){
-    
-    }
 
 }

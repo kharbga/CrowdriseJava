@@ -60,6 +60,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         idProb.setVisible(false);
+        idProb.setText("0");
         idSolution.setVisible(false);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         loadProblemsSubmitter();
@@ -346,56 +347,63 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnParcourirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParcourirActionPerformed
-        File uploadDir2 = new File("C:\\wamp\\www\\Uploads\\Solutions\\" + idProb.getText());
+
         selectedFileName = list1.getSelectedItem();
-        File selectedFile = new File(selectedFileName);
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Specify a file to save");
-        fileChooser.setSelectedFile(selectedFile);
-        int userSelection = fileChooser.showSaveDialog(this);
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
+        if (selectedFileName == null) {
+            JOptionPane.showMessageDialog(null, "Vous devez choisir une demande et un fichier.");
+        } else {
+            File uploadDir2 = new File("C:\\wamp\\www\\Uploads\\Solutions\\" + idProb.getText());
+            File selectedFile = new File(selectedFileName);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Specify a file to save");
+            fileChooser.setSelectedFile(selectedFile);
+            int userSelection = fileChooser.showSaveDialog(this);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
 
-            InputStream inputStream = null;
-            BufferedReader br = null;
-            OutputStream outputStream = null;
-            String filePath2 = uploadDir2.getAbsolutePath() + File.separator + selectedFileName;
-            File file = new File(filePath2);
+                InputStream inputStream = null;
+                BufferedReader br = null;
+                OutputStream outputStream = null;
+                String filePath2 = uploadDir2.getAbsolutePath() + File.separator + selectedFileName;
+                File file = new File(filePath2);
 
-            try {
-                // read this file into InputStream
-                inputStream = new FileInputStream(file);
+                try {
+                    // read this file into InputStream
+                    inputStream = new FileInputStream(file);
 
-                // write the inputStream to a FileOutputStream
-                outputStream = new FileOutputStream(new File(fileChooser.getCurrentDirectory() + File.separator + selectedFileName));
+                    // write the inputStream to a FileOutputStream
+                    outputStream = new FileOutputStream(new File(fileChooser.getCurrentDirectory() + File.separator + selectedFileName));
 
-                int length;
-                byte[] bytes = new byte[1024];
+                    int length;
+                    byte[] bytes = new byte[1024];
 
-                while ((length = inputStream.read(bytes)) > 0) {
-                    outputStream.write(bytes, 0, length);
-                }
-
-                System.out.println("Done!");
-
-            } catch (IOException e) {
-
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                    }
-                }
-                if (outputStream != null) {
-                    try {
-                        // outputStream.flush();
-                        outputStream.close();
-                    } catch (IOException e) {
+                    while ((length = inputStream.read(bytes)) > 0) {
+                        outputStream.write(bytes, 0, length);
                     }
 
+                    System.out.println("Done!");
+
+                } catch (IOException e) {
+
+                } finally {
+                    if (inputStream != null) {
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                        }
+                    }
+                    if (outputStream != null) {
+                        try {
+                            // outputStream.flush();
+                            outputStream.close();
+                        } catch (IOException e) {
+                        }
+
+                    }
                 }
             }
         }
+
+
     }//GEN-LAST:event_btnParcourirActionPerformed
 
     private void tableProblemesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProblemesMouseClicked
@@ -421,6 +429,7 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
 
     private void cbProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProblemActionPerformed
         SolutionDao mq = new SolutionDao();
+        //2= id du submitter connecté
         ArrayList<Solution> list = mq.getDataSolutionSubmitter((String) cbProblem.getSelectedItem().toString(), 2);
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new Object[]{"ID", "Offre", "Description"});
@@ -465,55 +474,73 @@ public class SolutionGuiSubmitter extends javax.swing.JFrame {
     }//GEN-LAST:event_tableProblemesActionPerformed
 
     private void btnRefuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefuserActionPerformed
-        int id = Integer.parseInt(idSolution.getText());
-        SolutionDao sDao = new SolutionDao();
-        try {
-            sDao.refuserSolution(id);
-            JOptionPane.showMessageDialog(null, "Solution Refusée");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erreur");
+        if (idSolution.getText() == "idSolution") {
+            JOptionPane.showMessageDialog(null, "Vous devez selectionner une ligne.");
+        } else {
+
+            int id = Integer.parseInt(idSolution.getText());
+            SolutionDao sDao = new SolutionDao();
+            try {
+                sDao.refuserSolution(id);
+                JOptionPane.showMessageDialog(null, "Solution Refusée");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erreur");
+            }
         }    }//GEN-LAST:event_btnRefuserActionPerformed
 
     private void fbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fbBtnActionPerformed
-        int ligneSelectionne = tableProblemes.getSelectedRow();
-        Object l = tableProblemes.getValueAt(ligneSelectionne, 0);
+        int ligneSelectionne = -1;
+        ligneSelectionne = tableProblemes.getSelectedRow();
+        if (ligneSelectionne == -1) {
+            JOptionPane.showMessageDialog(null, "Veuillez choisir une demande");
 
-        String accessToken = "CAACEdEose0cBADTDNJ6XcIqVFlao2wjDqsroXNJ9yu0N4JLZAUZCpb3pOQH9t4oZCAWsh3ZCzPFarPsjbMXCr3X9hJ4ZCOHUBZCwkIXjB3ziadtljdyf2QuHz2xZBiwNelMPeXogcbKFcwzkSjzgLSadIZCknDPrghZBZBAlDI4xZBKWHxdZAD7L58jyuupVsYWWfJjuEzquYhCODwZDZD";
-        FacebookClient fbClient = new DefaultFacebookClient(accessToken);
-        User me = fbClient.fetchObject("me", User.class);
-        Page userPgae = fbClient.fetchObject("213885155652908", Page.class);
+        } else {
+            Object l = tableProblemes.getValueAt(ligneSelectionne, 0);
 
-        System.out.println(me.getName());
-        System.out.println(me.getBirthday());
+            String accessToken = "CAACEdEose0cBADTDNJ6XcIqVFlao2wjDqsroXNJ9yu0N4JLZAUZCpb3pOQH9t4oZCAWsh3ZCzPFarPsjbMXCr3X9hJ4ZCOHUBZCwkIXjB3ziadtljdyf2QuHz2xZBiwNelMPeXogcbKFcwzkSjzgLSadIZCknDPrghZBZBAlDI4xZBKWHxdZAD7L58jyuupVsYWWfJjuEzquYhCODwZDZD";
+            FacebookClient fbClient = new DefaultFacebookClient(accessToken);
+            User me = fbClient.fetchObject("me", User.class);
+            Page userPgae = fbClient.fetchObject("213885155652908", Page.class);
 
-        String demande = (String) tableProblemes.getValueAt(ligneSelectionne, 1);
-        String description = (String) tableProblemes.getValueAt(ligneSelectionne, 2);
-        String dateMise = (String) tableProblemes.getValueAt(ligneSelectionne, 3);
-        String dateDeadLine = (String) tableProblemes.getValueAt(ligneSelectionne, 4);
+            System.out.println(me.getName());
+            System.out.println(me.getBirthday());
 
-        fbClient.publish("213885155652908" + "/feed", FacebookType.class,
-                Parameter.with("message", "Demande postée le : " + dateMise
-                        + "\nPour le : " + dateDeadLine
-                        + "\nDu problème: " + demande
-                        + "\nA propos de : " + description));
+            String demande = (String) tableProblemes.getValueAt(ligneSelectionne, 1);
+            String description = (String) tableProblemes.getValueAt(ligneSelectionne, 2);
+            String dateMise = (String) tableProblemes.getValueAt(ligneSelectionne, 3);
+            String dateDeadLine = (String) tableProblemes.getValueAt(ligneSelectionne, 4);
 
-        JOptionPane.showMessageDialog(null, "Publier avec succé sur Facebook!");
+            fbClient.publish("213885155652908" + "/feed", FacebookType.class,
+                    Parameter.with("message", "Demande postée le : " + dateMise
+                            + "\nPour le : " + dateDeadLine
+                            + "\nDu problème: " + demande
+                            + "\nA propos de : " + description));
+
+            JOptionPane.showMessageDialog(null, "Publier avec succé sur Facebook!");
+        }
     }//GEN-LAST:event_fbBtnActionPerformed
 
     private void btnAccepterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccepterActionPerformed
-        int id = Integer.parseInt(idSolution.getText());
-        SolutionDao sDao = new SolutionDao();
-        try {
-            sDao.accepterSolution(id);
-            JOptionPane.showMessageDialog(null, "Solution Acceptée");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erreur");
+        if (idSolution.getText() == "idSolution") {
+            JOptionPane.showMessageDialog(null, "Vous devez selectionner une ligne.");
+        } else {
+
+            int id = Integer.parseInt(idSolution.getText());
+
+            SolutionDao sDao = new SolutionDao();
+            try {
+                sDao.accepterSolution(id);
+                JOptionPane.showMessageDialog(null, "Solution Acceptée");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erreur");
+            }
         }
     }//GEN-LAST:event_btnAccepterActionPerformed
 
     private void loadProblemsSubmitter() {
 
         try {
+            //2=id du submitter connecté
             ResultSet res = sDao.getProblemsSubmitter(2);
             while (res.next()) {
                 cbProblem.addItem(res.getString(1));

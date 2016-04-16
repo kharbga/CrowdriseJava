@@ -21,13 +21,18 @@ import java.io.OutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import Utils.DemandeEnvoyerModel;
+import com.sun.xml.internal.ws.api.ha.HaInfo;
 import entities.Probleme;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -53,6 +58,7 @@ public class SolutionGui extends javax.swing.JFrame {
         tfId.setVisible(false);
         idUpload2.setVisible(false);
         loadAcceptedProblems();
+        idUpload2.setText("0");
 
     }
 
@@ -70,7 +76,7 @@ public class SolutionGui extends javax.swing.JFrame {
         tP1 = new javax.swing.JPanel();
         panelAjoutDemande = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        DescLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfSalaire = new javax.swing.JTextField();
         tfTitre = new javax.swing.JTextField();
@@ -99,7 +105,7 @@ public class SolutionGui extends javax.swing.JFrame {
         btnParcourir = new javax.swing.JButton();
         btnEnregistrer = new javax.swing.JButton();
         idUpload2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        labelFichier = new javax.swing.JLabel();
         tP4 = new javax.swing.JPanel();
         panelCredit = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -119,9 +125,9 @@ public class SolutionGui extends javax.swing.JFrame {
 
         jLabel2.setText("Titre:");
 
-        jLabel3.setText("Description:");
+        DescLabel.setText("Description:");
 
-        jLabel4.setText("Salaire:");
+        jLabel4.setText("Rénumération:");
 
         tfSalaire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,7 +158,7 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelAjoutDemandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3)
+                    .addComponent(DescLabel)
                     .addComponent(jLabel2))
                 .addGap(61, 61, 61)
                 .addGroup(panelAjoutDemandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -179,7 +185,7 @@ public class SolutionGui extends javax.swing.JFrame {
                     .addComponent(tfSalaire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(panelAjoutDemandeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(DescLabel)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(btnEnvoyerDemande)
@@ -191,14 +197,14 @@ public class SolutionGui extends javax.swing.JFrame {
         tP1Layout.setHorizontalGroup(
             tP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tP1Layout.createSequentialGroup()
-                .addContainerGap(156, Short.MAX_VALUE)
+                .addContainerGap(142, Short.MAX_VALUE)
                 .addComponent(panelAjoutDemande, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(148, 148, 148))
         );
         tP1Layout.setVerticalGroup(
             tP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tP1Layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addComponent(panelAjoutDemande, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
         );
@@ -280,7 +286,7 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addGroup(panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tfTitre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(panelModifierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
@@ -356,7 +362,7 @@ public class SolutionGui extends javax.swing.JFrame {
 
         idUpload2.setText("idUpload");
 
-        jLabel8.setText("Aucun fichier choisi");
+        labelFichier.setText("Aucun fichier choisi");
 
         javax.swing.GroupLayout panelUploadLayout = new javax.swing.GroupLayout(panelUpload);
         panelUpload.setLayout(panelUploadLayout);
@@ -369,7 +375,7 @@ public class SolutionGui extends javax.swing.JFrame {
             .addGroup(panelUploadLayout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(panelUploadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
+                    .addComponent(labelFichier)
                     .addComponent(btnParcourir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idUpload2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(183, Short.MAX_VALUE))
@@ -381,7 +387,7 @@ public class SolutionGui extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnParcourir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(labelFichier)
                 .addGap(23, 23, 23)
                 .addComponent(btnEnregistrer)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -494,7 +500,7 @@ public class SolutionGui extends javax.swing.JFrame {
             .addGroup(tP4Layout.createSequentialGroup()
                 .addGap(85, 85, 85)
                 .addComponent(panelCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Chargement crédits", tP4);
@@ -530,20 +536,23 @@ public class SolutionGui extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSalaireActionPerformed
 
     private void tfTitreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTitreActionPerformed
-        // TODO add your handling code here:
+
+
     }//GEN-LAST:event_tfTitreActionPerformed
 
     private void btnEnvoyerDemandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnvoyerDemandeActionPerformed
+        tfSalaire.setText("0");
         Solution s = new Solution();
+        //Le contrôle de saisie sur les champs titre, salaire et description :D
         s.setTitre(tfTitre.getText());
         s.setSalaire(Double.parseDouble(tfSalaire.getText()));
         s.setDescription(tfDescription.getText());
         s.setEtat("En attente");
         SolutionDao sdao = new SolutionDao();
-        sdao.add(s);
-
+        //1= id du problème selectionné
+        //2= id du Solver connecté
+        sdao.addDemande(s,1,2);
         JOptionPane.showMessageDialog(null, "Votre demande a été bien envoyée.");
-
     }//GEN-LAST:event_btnEnvoyerDemandeActionPerformed
 
     private void btnModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifierActionPerformed
@@ -582,7 +591,7 @@ public class SolutionGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSupprimerActionPerformed
     String filePath;
-    String fileName;    
+    String fileName;
     private void tfTitre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTitre1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfTitre1ActionPerformed
@@ -594,8 +603,8 @@ public class SolutionGui extends javax.swing.JFrame {
         File f = fc.getSelectedFile();
         filePath = f.getAbsolutePath();
         fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
-        jLabel3.setText(filePath);
-        jLabel8.setText(fileName);
+        DescLabel.setText(filePath);
+        labelFichier.setText(fileName);
     }//GEN-LAST:event_btnParcourirActionPerformed
 
     private void btnEnregistrerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnregistrerActionPerformed
@@ -603,51 +612,59 @@ public class SolutionGui extends javax.swing.JFrame {
         InputStream inputStream = null;
         BufferedReader br = null;
         OutputStream outputStream = null;
-        File file = new File(filePath);
-        SolutionDao sDao = new SolutionDao();
-        sDao.updateFichierSolution( filePath, Integer.parseInt(idUpload2.getText()));
-        File uploadDir;
-        uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\"+(String)cbProblem.getSelectedItem().toString());
-        try {
-            // read this file into InputStream
-            inputStream = new FileInputStream(file);
+        if (filePath == null) {
+            JOptionPane.showMessageDialog(null, "Vous devez choisir une offre et un fichier.");
+        } else if (idUpload2.getText() == "0") {
+            JOptionPane.showMessageDialog(null, "Vous devez choisir une offre et un fichier.");
+        } else {
 
-            // write the inputStream to a FileOutputStream
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-                System.out.println("Upload Directory Created");
-            }
-            outputStream = new FileOutputStream(new File(uploadDir.getAbsolutePath() + File.separator + fileName));
+            File file = new File(filePath);
+            SolutionDao sDao = new SolutionDao();
 
-            int length;
-            byte[] bytes = new byte[1024];
+            sDao.updateFichierSolution(filePath, Integer.parseInt(idUpload2.getText()));
+            File uploadDir;
+            uploadDir = new File("C:\\wamp\\www\\Uploads\\Solutions\\" + (String) cbProblem.getSelectedItem().toString());
 
-            while ((length = inputStream.read(bytes)) > 0) {
-                outputStream.write(bytes, 0, length);
-            } 
-            System.out.println("Done!");
+            try {
+                // read this file into InputStream
+                inputStream = new FileInputStream(file);
 
-        } catch (IOException e) {
-
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
+                // write the inputStream to a FileOutputStream
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                    System.out.println("Upload Directory Created");
                 }
-            }
-            if (outputStream != null) {
-                try {
-                    // outputStream.flush();
-                    outputStream.close();
-                } catch (IOException e) {
-                }
+                outputStream = new FileOutputStream(new File(uploadDir.getAbsolutePath() + File.separator + fileName));
 
+                int length;
+                byte[] bytes = new byte[1024];
+
+                while ((length = inputStream.read(bytes)) > 0) {
+                    outputStream.write(bytes, 0, length);
+                }
+                System.out.println("Done!");
+
+            } catch (IOException e) {
+
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+
+                    }
+                }
+                if (outputStream != null) {
+                    try {
+                        // outputStream.flush();
+                        outputStream.close();
+                    } catch (IOException e) {
+                    }
+
+                }
+                JOptionPane.showMessageDialog(null, "Votre offre a été bien enregistré.");
             }
         }
-
-        JOptionPane.showMessageDialog(null, "Votre offre a été bien enregistré.");
-
     }//GEN-LAST:event_btnEnregistrerActionPerformed
 
     private void tabDemandeEnvoyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabDemandeEnvoyeMouseClicked
@@ -685,14 +702,23 @@ public class SolutionGui extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserActionPerformed
 
     private void loadAcceptedProblems() {
+        Set<String> tab = new HashSet();
 
         try {
-            ResultSet res = sDao.getAcceptedProblems();
+            //2 = id du solver connecté
+            ResultSet res = sDao.getAcceptedProblems(2);
             while (res.next()) {
-                cbProblem.addItem(res.getString(6));
+                tab.add(res.getString(6));
             }
+            for (Object o : tab) {
+                System.out.println();
+                cbProblem.addItem((String) o);
+
+            }
+
         } catch (SQLException ex) {
-            Logger.getLogger(SolutionGui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SolutionGui.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -711,16 +737,21 @@ public class SolutionGui extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SolutionGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolutionGui.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SolutionGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolutionGui.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SolutionGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolutionGui.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SolutionGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolutionGui.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -733,6 +764,7 @@ public class SolutionGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DescLabel;
     private javax.swing.JButton btnEnregistrer;
     private javax.swing.JButton btnEnvoyerDemande;
     private javax.swing.JButton btnModifier;
@@ -746,18 +778,17 @@ public class SolutionGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel labelFichier;
     private javax.swing.JLabel msgTab1;
     private javax.swing.JPanel panelAjoutDemande;
     private javax.swing.JPanel panelCredit;
