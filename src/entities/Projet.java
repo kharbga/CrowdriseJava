@@ -39,8 +39,8 @@ public class Projet {
     public Projet() {
     }
 
-    public Projet(String titre, String description, String typeFinancement, Date dateProjet, Date deadlineProjet, String fichierProjet, int MembreId, String imageProjet, String videoProjet, int idcat) {
-
+    public Projet(int idProjet, String titre, String description, String typeFinancement, Date dateProjet, Date deadlineProjet, String fichierProjet, int MembreId, String imageProjet, String videoProjet, int idcat) {
+        this.idProjet = idProjet;
         this.titre = titre;
         this.description = description;
         this.typeFinancement = typeFinancement;
@@ -52,6 +52,8 @@ public class Projet {
         this.videoProjet = videoProjet;
         this.idcat = idcat;
     }
+
+   
 
     public int getIdProjet() {
         return idProjet;

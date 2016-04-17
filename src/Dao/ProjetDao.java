@@ -62,7 +62,7 @@ public class ProjetDao implements IDAO<Projet> {
 
     @Override
     public void update(Projet p) {
-        String req = "UPDATE Projet SET titre = ? , description= ? , type_financement= ? , date_projet= ? , deadline_projet= ? , fichierProjet= ? ,imageProjet= ? , Video_Projet= ? ,idcat_id= ? , membre_id= ? WHERE id =? ";
+        String req = "UPDATE Projet SET titre = ? , description= ? , type_financement= ? , date_projet= ? , deadline_projet= ? , fichierProjet= ? ,imageProjet= ? , Video_Projet= ? ,idcat_id= ? , membre_id= ? WHERE id_projet =? ";
         try {
             pst = connection.prepareStatement(req);
             pst.setString(1, p.getTitre());
@@ -75,7 +75,7 @@ public class ProjetDao implements IDAO<Projet> {
             pst.setString(8, p.getVideoProjet());
             pst.setInt(9, p.getIdcat());
             pst.setInt(10, p.getMembreId());
-            pst.setInt(3, p.getIdProjet());
+            pst.setInt(11, p.getIdProjet());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProjetDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,16 +111,17 @@ public class ProjetDao implements IDAO<Projet> {
 
             while (rs.next()) {
                 pr = new Projet(
+                        rs.getInt("id_projet"),
                         rs.getString("titre"),
                         rs.getString("description"),
-                        rs.getString("TypeFinancement"),
-                        rs.getDate("DateProjet"),
-                        rs.getDate("DeadlineProjet"),
-                        rs.getString("FichierProjet"),
-                        rs.getInt("MembreId"),
-                        rs.getString("ImageProjet"),
-                        rs.getString("VideoProjet"),
-                        rs.getInt("Idcat")
+                        rs.getString("type_financement"),
+                        rs.getDate("date_projet"),
+                        rs.getDate("deadline_projet"),
+                        rs.getString("fichierProjet"),
+                        rs.getInt("Membre_id"),
+                        rs.getString("imageProjet"),
+                        rs.getString("video_projet"),
+                        rs.getInt("idcat_id")
                 );
                 projetList.add(pr);
             }
@@ -134,20 +135,20 @@ public class ProjetDao implements IDAO<Projet> {
     @Override
     public Projet findById(int id) {
         Projet p = new Projet();
-        String requete = "select * from Projet where id_projet=?";
+        String requete = "select titre,description,type_financement,date_projet,deadline_projet,fichierProjet,imageProjet,Video_Projet,idcat_id,membre_id from Projet where id_projet=?";
         try {
             PreparedStatement ps = connection.prepareStatement(requete);
             ps.setInt(1, id);
             ResultSet resultat = ps.executeQuery();
             while (resultat.next()) {
 
-                p.setTitre(resultat.getString(1));;
+                p.setTitre(resultat.getString(1));
                 p.setDescription(resultat.getString(2));
                 p.setTypeFinancement(resultat.getString(3));
                 
                 p.setDateProjet(resultat.getDate(4));
                 p.setDeadlineProjet(resultat.getDate(5));
-                p.setFichierProjet(resultat.getString(6));;
+                p.setFichierProjet(resultat.getString(6));
                 p.setImageProjet(resultat.getString(7));
                 p.setVideoProjet(resultat.getString(8));
                 p.setIdcat(resultat.getInt(9));
