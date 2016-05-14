@@ -13,28 +13,61 @@ import java.util.Objects;
  * @author kouki
  */
 public class Membre {
-     
+
     private int id;
-    private  String nom;  
-    private  String prenom;  
-    private  String username;    
-    private String usernameCanonical;   
-    private String email;   
-    private String  emailCanonical; 
-    private int enabled;   
-    private String salt;   
-    private String password;   
-    private Date lastLogin;   
-    private String confirmationToken;   
-    private Date passwordRequestedAt;    
-    private int locked; 
-    private int expired;  
-    private Date expiresAt;  
-    private String roles; 
+    private String nom;
+    private String prenom;
+    private String username;
+    private String usernameCanonical;
+    private String email;
+    private String emailCanonical;
+    private int enabled;
+    private String salt;
+    private String password;
+    private Date lastLogin;
+    private String confirmationToken;
+    private Date passwordRequestedAt;
+    private int locked;
+    private int expired;
+    private Date expiresAt;
+    private String roles;
     private int credentialsExpired;
-    private  Date credentialsExpireAt;
+    private Date credentialsExpireAt;
+    private int etat;
 
     public Membre() {
+    }
+
+    public Membre(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Membre(int id, String nom, String prenom, String username, String password, String roles, String email, int etat) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.email = email;
+        this.etat = etat;
+    }
+
+    public Membre(String nom, String prenom, String username, String password, String roles) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
     }
 
     public int getId() {
@@ -211,6 +244,7 @@ public class Membre {
         hash = 73 * hash + Objects.hashCode(this.roles);
         hash = 73 * hash + this.credentialsExpired;
         hash = 73 * hash + Objects.hashCode(this.credentialsExpireAt);
+        hash = 73 * hash + this.etat;
         return hash;
     }
 
@@ -280,12 +314,15 @@ public class Membre {
         if (!Objects.equals(this.credentialsExpireAt, other.credentialsExpireAt)) {
             return false;
         }
+         if (this.etat != other.id) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Membre{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom ;
+        return "Membre{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + "}";
     }
-    
+
 }
