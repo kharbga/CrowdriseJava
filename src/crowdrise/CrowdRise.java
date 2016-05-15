@@ -7,6 +7,9 @@ package crowdrise;
 
 import GUI.JProfil;
 import dao.NotificationDAO;
+import dao.ProfilDAO;
+import entities.Profil;
+import java.util.Date;
 
 /**
  *
@@ -19,10 +22,15 @@ public class CrowdRise {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        JProfil profil = new JProfil() ;
+        JProfil profil = new JProfil();
         profil.setVisible(true);
 //        NotificationDAO ndao = new NotificationDAO() ;
 //        System.out.println(ndao.findAll());
+          Profil p1 = new Profil(0, "Adel", "Ayedi", new Date(28/03/2016), "kjqkd", "lhjh", "lgjhj", "lgljg");
+           ProfilDAO pdao = new ProfilDAO();
+           pdao.update(p1);
+//        System.out.println(pdao.findById(104));
+
     }
-    
+
 }

@@ -7,15 +7,29 @@ package GUI;
 
 
 
+import Utils.ModelCompetence;
+import Utils.SendEmailUsingGMailSMTP;
+import dao.CompetenceDAO;
 import dao.NotificationDAO;
 import dao.ProfilDAO;
+import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
+import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
+import entities.Competence;
 import entities.Notification;
 import entities.Profil;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.mail.internet.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,7 +41,8 @@ public class JProfil extends javax.swing.JFrame {
     /**
      * Creates new form JProfil
      */
-    public JProfil() {
+    public JProfil() throws UnsupportedLookAndFeelException, ParseException, java.text.ParseException {
+        UIManager.setLookAndFeel(new SyntheticaBlackStarLookAndFeel());
         initComponents();
         NotificationDAO ndao = new NotificationDAO();
         ndao.findAll();
@@ -42,6 +57,8 @@ public class JProfil extends javax.swing.JFrame {
             notificationTable.setValueAt(n.getMessage(), i, 1);
             i++;
         }
+       PanelAjouterComp.setVisible(false);
+       PanelModfierComp.setVisible(false);
     }
 
     /**
@@ -80,29 +97,9 @@ public class JProfil extends javax.swing.JFrame {
         browseBtn = new javax.swing.JButton();
         photoPathLabel = new javax.swing.JLabel();
         photoLabel = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        nomTf1 = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        prenomTf1 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        ajouterProfilBtn1 = new javax.swing.JButton();
-        jCalendar2 = new com.toedter.calendar.JCalendar();
-        jLabel13 = new javax.swing.JLabel();
-        pseudoTf1 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        professionTf1 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        adresseTa1 = new javax.swing.JTextArea();
-        jLabel16 = new javax.swing.JLabel();
-        browseBtn1 = new javax.swing.JButton();
-        photoPathLabel1 = new javax.swing.JLabel();
-        photoLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        photoProfilLabel = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         nomAffiche = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -116,9 +113,61 @@ public class JProfil extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         professionAffiche = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        idProfilTf = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        afficheProfilBtn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        nomTf1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        prenomTf1 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        ajouterProfilBtn1 = new javax.swing.JButton();
+        dateAffiche1 = new com.toedter.calendar.JCalendar();
+        jLabel13 = new javax.swing.JLabel();
+        pseudoTf1 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        professionTf1 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        adresseTa1 = new javax.swing.JTextArea();
+        jLabel16 = new javax.swing.JLabel();
+        browseBtn1 = new javax.swing.JButton();
+        photoPathLabel1 = new javax.swing.JLabel();
+        photoLabel1 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        idProfilModif = new javax.swing.JTextField();
+        modifierAfficheBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         notificationTable = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        TfIdProfil = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        BtnCompetence = new javax.swing.JButton();
+        jLabel25 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TbleAfficheComp = new javax.swing.JTable();
+        PanelModfierComp = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        TfNomModifier = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TaDescModifComp = new javax.swing.JTextArea();
+        ModifierCompetence = new javax.swing.JButton();
+        SupprimerCompetence = new javax.swing.JButton();
+        TfIdModifComp = new javax.swing.JTextField();
+        PanelAjouterComp = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        TfNomAjoutComp = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        TaDescAjoutComp = new javax.swing.JTextArea();
+        AjouterCompetence = new javax.swing.JButton();
+        AfficherAjouterCompetence = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,7 +175,7 @@ public class JProfil extends javax.swing.JFrame {
         jTabbedPane5.setFont(new java.awt.Font("Leelawadee UI", 0, 12)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
-        jLabel1.setText("Ajouter votre profil");
+        jLabel1.setText("Créer votre profil");
 
         jLabel2.setText("Nom :");
 
@@ -179,12 +228,14 @@ public class JProfil extends javax.swing.JFrame {
             }
         });
 
+        photoLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
@@ -197,60 +248,46 @@ public class JProfil extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(professionTf)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(53, 53, 53)
-                        .addComponent(browseBtn))
-                    .addComponent(photoPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(photoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(professionTf)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(53, 53, 53)
+                                .addComponent(browseBtn)))
+                        .addGap(72, 72, 72))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(photoPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(209, 209, 209)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
+                        .addGap(337, 337, 337)
                         .addComponent(ajouterProfilBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(226, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(professionTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jLabel8))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(browseBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(photoPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -267,162 +304,38 @@ public class JProfil extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)))
-                .addComponent(ajouterProfilBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(professionTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel8))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(browseBtn)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(photoPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(ajouterProfilBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))))
         );
 
         jTabbedPane5.addTab("Ajouter Profil", jPanel1);
 
-        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
-        jLabel9.setText("Modifier votre profil");
-
-        jLabel10.setText("Nom :");
-
-        nomTf1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomTf1ActionPerformed(evt);
-            }
-        });
-
-        jLabel11.setText("Prénom :");
-
-        prenomTf1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prenomTf1ActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setText("Date de naissance :");
-
-        ajouterProfilBtn1.setText("Valider");
-
-        jLabel13.setText("Pseudo :");
-
-        jLabel14.setText("Profession :");
-
-        professionTf1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                professionTf1ActionPerformed(evt);
-            }
-        });
-
-        jLabel15.setText("Adresse :");
-
-        adresseTa1.setColumns(20);
-        adresseTa1.setLineWrap(true);
-        adresseTa1.setRows(5);
-        jScrollPane2.setViewportView(adresseTa1);
-
-        jLabel16.setText("Photo de profil :");
-
-        browseBtn1.setText("Browse");
-        browseBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browseBtn1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(prenomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(professionTf1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addGap(53, 53, 53)
-                        .addComponent(browseBtn1))
-                    .addComponent(photoPathLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(photoLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(209, 209, 209)
-                        .addComponent(jLabel9))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
-                        .addComponent(ajouterProfilBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(215, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(professionTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jLabel16))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(browseBtn1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(photoPathLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(photoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(nomTf1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(prenomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)))
-                .addComponent(ajouterProfilBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jTabbedPane5.addTab("Modifier Profil", jPanel4);
-
         jLabel17.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
         jLabel17.setText("Votre Profil");
 
-        jLabel18.setText("ta photo");
-        jLabel18.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        photoProfilLabel.setText("Votre photo");
+        photoProfilLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setText("Nom :");
@@ -461,18 +374,43 @@ public class JProfil extends javax.swing.JFrame {
             }
         });
 
+        idProfilTf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idProfilTfActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setText("Id profil");
+
+        afficheProfilBtn.setText("Afficher Profil");
+        afficheProfilBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                afficheProfilBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(afficheProfilBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
+                                .addGap(18, 18, 18)
+                                .addComponent(idProfilTf, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(2, 2, 2)))
+                .addGap(23, 23, 23))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(257, 257, 257)
-                        .addComponent(jLabel17))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(photoProfilLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -494,12 +432,11 @@ public class JProfil extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(professionAffiche)
                                     .addComponent(adresseAffiche)
-                                    .addComponent(dateAffiche))))))
-                .addContainerGap(159, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(23, 23, 23))
+                                    .addComponent(dateAffiche)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(257, 257, 257)
+                        .addComponent(jLabel17)))
+                .addContainerGap(416, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,10 +445,13 @@ public class JProfil extends javax.swing.JFrame {
                 .addComponent(jLabel17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(idProfilTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(afficheProfilBtn)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
                             .addComponent(nomAffiche))
@@ -534,13 +474,202 @@ public class JProfil extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel28)
-                            .addComponent(professionAffiche))))
-                .addGap(40, 40, 40)
+                            .addComponent(professionAffiche)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(photoProfilLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41)
                 .addComponent(jButton1)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("Afficher Profil", jPanel2);
+
+        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
+        jLabel9.setText("Modifier votre profil");
+
+        jLabel10.setText("Nom :");
+
+        nomTf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomTf1ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Prénom :");
+
+        prenomTf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prenomTf1ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Date de naissance :");
+
+        ajouterProfilBtn1.setText("Valider");
+        ajouterProfilBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajouterProfilBtn1ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Pseudo :");
+
+        jLabel14.setText("Profession :");
+
+        professionTf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                professionTf1ActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("Adresse :");
+
+        adresseTa1.setColumns(20);
+        adresseTa1.setLineWrap(true);
+        adresseTa1.setRows(5);
+        jScrollPane2.setViewportView(adresseTa1);
+
+        jLabel16.setText("Photo de profil :");
+
+        browseBtn1.setText("Browse");
+        browseBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseBtn1ActionPerformed(evt);
+            }
+        });
+
+        photoLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+
+        jLabel18.setText("Id profil");
+
+        idProfilModif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idProfilModifActionPerformed(evt);
+            }
+        });
+
+        modifierAfficheBtn.setText("Modifier");
+        modifierAfficheBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifierAfficheBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(prenomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel12)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(292, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(48, 48, 48)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idProfilModif, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(modifierAfficheBtn)))
+                        .addGap(39, 39, 39))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel15))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(professionTf1)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(photoPathLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jLabel16)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(browseBtn1))
+                                .addComponent(photoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(82, 82, 82))))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(ajouterProfilBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel18)
+                    .addComponent(idProfilModif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(modifierAfficheBtn)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(professionTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel16))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(browseBtn1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(photoPathLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(photoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(nomTf1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(prenomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ajouterProfilBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))))
+        );
+
+        jTabbedPane5.addTab("Modifier Profil", jPanel4);
 
         notificationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -573,18 +702,273 @@ public class JProfil extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
                 .addGap(21, 21, 21))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane5.addTab("Votre Notification", jPanel3);
+
+        TfIdProfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TfIdProfilActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setText("id Profil :");
+
+        BtnCompetence.setText("Afficher");
+        BtnCompetence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCompetenceActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 24)); // NOI18N
+        jLabel25.setText("Competence");
+
+        TbleAfficheComp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Nom", "Description"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TbleAfficheComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbleAfficheCompMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(TbleAfficheComp);
+        if (TbleAfficheComp.getColumnModel().getColumnCount() > 0) {
+            TbleAfficheComp.getColumnModel().getColumn(0).setResizable(false);
+            TbleAfficheComp.getColumnModel().getColumn(1).setResizable(false);
+            TbleAfficheComp.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        PanelModfierComp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel27.setText("Modifier");
+
+        jLabel30.setText("Nom :");
+
+        jLabel31.setText("Description :");
+
+        TaDescModifComp.setColumns(20);
+        TaDescModifComp.setLineWrap(true);
+        TaDescModifComp.setRows(5);
+        jScrollPane5.setViewportView(TaDescModifComp);
+
+        ModifierCompetence.setText("Modifier");
+        ModifierCompetence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModifierCompetenceActionPerformed(evt);
+            }
+        });
+
+        SupprimerCompetence.setText("Supprimer Compétence");
+        SupprimerCompetence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SupprimerCompetenceActionPerformed(evt);
+            }
+        });
+
+        TfIdModifComp.setEditable(false);
+
+        javax.swing.GroupLayout PanelModfierCompLayout = new javax.swing.GroupLayout(PanelModfierComp);
+        PanelModfierComp.setLayout(PanelModfierCompLayout);
+        PanelModfierCompLayout.setHorizontalGroup(
+            PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelModfierCompLayout.createSequentialGroup()
+                .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelModfierCompLayout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jLabel27)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(TfIdModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelModfierCompLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel31))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                            .addComponent(TfNomModifier))))
+                .addGap(19, 19, 19))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelModfierCompLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(SupprimerCompetence)
+                .addGap(18, 18, 18)
+                .addComponent(ModifierCompetence)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        PanelModfierCompLayout.setVerticalGroup(
+            PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelModfierCompLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(TfIdModifComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel30)
+                    .addComponent(TfNomModifier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(PanelModfierCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ModifierCompetence)
+                    .addComponent(SupprimerCompetence))
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        PanelAjouterComp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel29.setText("Créer une nouvelle compétence");
+
+        jLabel32.setText("Nom :");
+
+        jLabel33.setText("Description :");
+
+        TaDescAjoutComp.setColumns(20);
+        TaDescAjoutComp.setLineWrap(true);
+        TaDescAjoutComp.setRows(5);
+        jScrollPane6.setViewportView(TaDescAjoutComp);
+
+        AjouterCompetence.setText("Ajouter");
+        AjouterCompetence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AjouterCompetenceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelAjouterCompLayout = new javax.swing.GroupLayout(PanelAjouterComp);
+        PanelAjouterComp.setLayout(PanelAjouterCompLayout);
+        PanelAjouterCompLayout.setHorizontalGroup(
+            PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAjouterCompLayout.createSequentialGroup()
+                .addGroup(PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelAjouterCompLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel33))
+                        .addGap(38, 38, 38)
+                        .addGroup(PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                            .addComponent(TfNomAjoutComp)))
+                    .addGroup(PanelAjouterCompLayout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(jLabel29)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAjouterCompLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(AjouterCompetence)
+                .addGap(204, 204, 204))
+        );
+        PanelAjouterCompLayout.setVerticalGroup(
+            PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAjouterCompLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(TfNomAjoutComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(PanelAjouterCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel33)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(AjouterCompetence)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        AfficherAjouterCompetence.setText("Ajouter Competence");
+        AfficherAjouterCompetence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AfficherAjouterCompetenceActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel25)
+                        .addGap(219, 219, 219)
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TfIdProfil, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                            .addComponent(PanelAjouterComp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(AfficherAjouterCompetence)
+                                .addGap(45, 45, 45)
+                                .addComponent(BtnCompetence))
+                            .addComponent(PanelModfierComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TfIdProfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel25))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AfficherAjouterCompetence)
+                    .addComponent(BtnCompetence))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanelAjouterComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelModfierComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jTabbedPane5.addTab("Votre Competence", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -656,6 +1040,9 @@ public class JProfil extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        ProfilDAO pdao = new ProfilDAO();
+        int id = Integer.parseInt(idProfilTf.getText());
+        pdao.removeById(id);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ajouterProfilBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterProfilBtnActionPerformed
@@ -670,7 +1057,163 @@ public class JProfil extends javax.swing.JFrame {
         p.setProfession(professionTf.getText());
         p.setPseudo(pseudoTf.getText());
         pdao.add(p);
+        
+        NotificationDAO ndao = new NotificationDAO();
+        Notification notif = new Notification();
+        notif.setProducer(prenomTf.getText());
+        notif.setReceiver(nomTf.getText());
+        notif.setMessage(prenomTf.getText() + " a ajouté un nouveau profil");
+        ndao.add(notif);
+        
+        SendEmailUsingGMailSMTP m = new SendEmailUsingGMailSMTP();
+        m.sendMail("sedki.ketata@esprit.tn", "Nouveau Profil",
+                "Vous avez compléter avec succés votre profil");
     }//GEN-LAST:event_ajouterProfilBtnActionPerformed
+
+    private void idProfilTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idProfilTfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idProfilTfActionPerformed
+
+    private void afficheProfilBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afficheProfilBtnActionPerformed
+        // TODO add your handling code here:
+        ProfilDAO pdao = new ProfilDAO() ;
+        Profil p = new Profil();
+        int id = Integer.parseInt(idProfilTf.getText());
+        p = pdao.findById(id);
+        nomAffiche.setText(p.getNom());
+        prenomAffiche.setText(p.getPrenom());
+        dateAffiche.setText(p.getDateNaissance().toString());
+        pseudoAffiche.setText(p.getPseudo());
+        professionAffiche.setText(p.getProfession());
+        adresseAffiche.setText(p.getAdresse());
+        
+//        JFileChooser fc = new JFileChooser();
+//        fc.showOpenDialog(null);
+//        File f = fc.getSelectedFile();
+        try {
+            ImageIcon ii=new ImageIcon(p.getImage());//get the image from file chooser and scale it to match JLabel size
+            ii = new ImageIcon(ii.getImage().getScaledInstance(188, 173, BufferedImage.SCALE_SMOOTH));
+            photoProfilLabel.setIcon(ii);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_afficheProfilBtnActionPerformed
+
+    private void ajouterProfilBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterProfilBtn1ActionPerformed
+        // TODO add your handling code here:
+        ProfilDAO pdao = new ProfilDAO() ;
+        Profil p = new Profil();
+        int id = Integer.parseInt(idProfilModif.getText());
+        p.setId(id);
+        p.setNom(nomTf1.getText());
+        p.setPrenom(prenomTf1.getText());
+        p.setDateNaissance(dateAffiche1.getDate());
+        p.setAdresse(adresseTa1.getText());
+        p.setImage(photoPathLabel1.getText());
+        p.setProfession(professionTf1.getText());
+        p.setPseudo(pseudoTf1.getText());
+        pdao.update(p);
+    }//GEN-LAST:event_ajouterProfilBtn1ActionPerformed
+
+    private void idProfilModifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idProfilModifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idProfilModifActionPerformed
+
+    private void modifierAfficheBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifierAfficheBtnActionPerformed
+        // TODO add your handling code here:
+        ProfilDAO pdao = new ProfilDAO() ;
+        int id = Integer.parseInt(idProfilModif.getText());
+        Profil p = new Profil();
+        p = pdao.findById(id);
+        
+        nomTf1.setText(p.getNom());
+        prenomTf1.setText(p.getPrenom());
+        dateAffiche1.setDate(p.getDateNaissance());
+        adresseTa1.setText(p.getAdresse());
+        pseudoTf1.setText(p.getPseudo());
+        professionTf1.setText(p.getProfession());
+        photoPathLabel1.setText(p.getImage());
+    }//GEN-LAST:event_modifierAfficheBtnActionPerformed
+
+    private void TfIdProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfIdProfilActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TfIdProfilActionPerformed
+
+    private void BtnCompetenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCompetenceActionPerformed
+        // TODO add your handling code here:
+        CompetenceDAO cdao = new CompetenceDAO();
+        int id = Integer.parseInt(TfIdProfil.getText());
+        cdao.findAllById(id);
+        TbleAfficheComp.setModel(new DefaultTableModel(
+                new Object[cdao.getListeCompetence().size()][], 
+                new String[]{
+                    "Id","Nom","Description"
+                }));
+        int i = 0 ;
+        for(Competence c : cdao.getListeCompetence()){
+            TbleAfficheComp.setValueAt(c.getId(), i, 0);
+            TbleAfficheComp.setValueAt(c.getNom(), i, 1);
+            TbleAfficheComp.setValueAt(c.getDescription(), i, 2);
+            i++;
+        }
+    }//GEN-LAST:event_BtnCompetenceActionPerformed
+
+    private void AjouterCompetenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterCompetenceActionPerformed
+        // TODO add your handling code here:
+        Competence c = new Competence();
+        CompetenceDAO cdao = new CompetenceDAO();
+        int id = Integer.parseInt(TfIdProfil.getText());
+        c.setIdProfil(id);
+        c.setNom(TfNomAjoutComp.getText());
+        c.setDescription(TaDescAjoutComp.getText());
+        cdao.add(c);
+        SendEmailUsingGMailSMTP m = new SendEmailUsingGMailSMTP();
+        m.sendMail("sedki.ketata@esprit.tn", "Ajout d'une Competence à votre profil",
+                "Vous avez ajouter avec succés une nouvelle competence");
+        Notification n = new Notification();
+        NotificationDAO ndao = new NotificationDAO();
+        n.setMessage("Sedki a ajouté une nouvelle notification");
+        n.setProducer("Sedki");
+        n.setReceiver("Admin");
+        ndao.add(n);
+    }//GEN-LAST:event_AjouterCompetenceActionPerformed
+
+    private void ModifierCompetenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModifierCompetenceActionPerformed
+        // TODO add your handling code here:
+        Competence c = new Competence();
+        CompetenceDAO cdao = new CompetenceDAO();
+        c.setId(Integer.parseInt(TfIdModifComp.getText()));
+        c.setIdProfil(Integer.parseInt(TfIdProfil.getText()));
+        c.setNom(TfNomModifier.getText());
+        c.setDescription(TaDescModifComp.getText());
+        cdao.update(c);
+    }//GEN-LAST:event_ModifierCompetenceActionPerformed
+
+    private void TbleAfficheCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbleAfficheCompMouseClicked
+        // TODO add your handling code here:
+        Competence c = new Competence();
+        int row = TbleAfficheComp.getSelectedRow() ;
+        c.setId(Integer.parseInt(TbleAfficheComp.getValueAt(row, 0).toString()));
+        c.setIdProfil(Integer.parseInt(TfIdProfil.getText()));
+        c.setNom(TbleAfficheComp.getValueAt(row, 1).toString());
+        c.setDescription(TbleAfficheComp.getValueAt(row, 2).toString());
+        PanelModfierComp.setVisible(true);
+        TfNomModifier.setText(c.getNom());
+        TaDescModifComp.setText(c.getDescription());
+        TfIdModifComp.setText(Integer.toString(c.getId()));
+    }//GEN-LAST:event_TbleAfficheCompMouseClicked
+
+    private void SupprimerCompetenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerCompetenceActionPerformed
+        // TODO add your handling code here:
+        CompetenceDAO cdao = new CompetenceDAO();
+        int id = Integer.parseInt(TfIdModifComp.getText());
+        cdao.removeById(id);
+    }//GEN-LAST:event_SupprimerCompetenceActionPerformed
+
+    private void AfficherAjouterCompetenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AfficherAjouterCompetenceActionPerformed
+        // TODO add your handling code here:
+        PanelAjouterComp.setVisible(true);
+    }//GEN-LAST:event_AfficherAjouterCompetenceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -702,20 +1245,44 @@ public class JProfil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JProfil().setVisible(true);
+                try {
+                    new JProfil().setVisible(true);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(JProfil.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(JProfil.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (java.text.ParseException ex) {
+                    Logger.getLogger(JProfil.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AfficherAjouterCompetence;
+    private javax.swing.JButton AjouterCompetence;
+    private javax.swing.JButton BtnCompetence;
+    private javax.swing.JButton ModifierCompetence;
+    private javax.swing.JPanel PanelAjouterComp;
+    private javax.swing.JPanel PanelModfierComp;
+    private javax.swing.JButton SupprimerCompetence;
+    private javax.swing.JTextArea TaDescAjoutComp;
+    private javax.swing.JTextArea TaDescModifComp;
+    private javax.swing.JTable TbleAfficheComp;
+    private javax.swing.JTextField TfIdModifComp;
+    private javax.swing.JTextField TfIdProfil;
+    private javax.swing.JTextField TfNomAjoutComp;
+    private javax.swing.JTextField TfNomModifier;
     private javax.swing.JLabel adresseAffiche;
     private javax.swing.JTextArea adresseTa;
     private javax.swing.JTextArea adresseTa1;
+    private javax.swing.JButton afficheProfilBtn;
     private javax.swing.JButton ajouterProfilBtn;
     private javax.swing.JButton ajouterProfilBtn1;
     private javax.swing.JButton browseBtn;
     private javax.swing.JButton browseBtn1;
     private javax.swing.JLabel dateAffiche;
+    private com.toedter.calendar.JCalendar dateAffiche1;
     private datechooser.beans.DateChooserDialog dateChooserDialog1;
     private datechooser.beans.DateChooserDialog dateChooserDialog2;
     private datechooser.beans.DateChooserDialog dateChooserDialog3;
@@ -723,8 +1290,9 @@ public class JProfil extends javax.swing.JFrame {
     private datechooser.beans.DateChooserDialog dateChooserDialog5;
     private datechooser.beans.DateChooserDialog dateChooserDialog6;
     private com.toedter.calendar.JCalendar datePicker;
+    private javax.swing.JTextField idProfilModif;
+    private javax.swing.JTextField idProfilTf;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -738,11 +1306,20 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -753,10 +1330,15 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane5;
+    private javax.swing.JButton modifierAfficheBtn;
     private javax.swing.JLabel nomAffiche;
     private javax.swing.JTextField nomTf;
     private javax.swing.JTextField nomTf1;
@@ -765,6 +1347,7 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JLabel photoLabel1;
     private javax.swing.JLabel photoPathLabel;
     private javax.swing.JLabel photoPathLabel1;
+    private javax.swing.JLabel photoProfilLabel;
     private javax.swing.JLabel prenomAffiche;
     private javax.swing.JTextField prenomTf;
     private javax.swing.JTextField prenomTf1;
