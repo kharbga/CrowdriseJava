@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package utils;
+package Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +23,7 @@ public class DataSource {
     private String mdp;
     private Properties properties;
     private static DataSource instance;
-    private DataSource() {
+    public DataSource() {
         
         try {
             properties=new Properties();
@@ -37,7 +36,7 @@ public class DataSource {
             Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         
         
     }

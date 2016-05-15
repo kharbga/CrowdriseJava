@@ -5,13 +5,9 @@
  */
 package entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
-
-/**
- *
- * @author kouki
- */
+ 
 public class Probleme {
 
     private int idProbleme;
@@ -25,11 +21,23 @@ public class Probleme {
     private Date deadlineProbleme;
 
     private String fichierProbleme;
+    
+    private String categorie;
 
     private int MembreId;
 
     public Probleme() {
     }
+
+    public Probleme(int idProbleme, String titre, String description, Date deadlineProbleme, String fichierProbleme, String categorie) {
+        this.idProbleme = idProbleme;
+        this.titre = titre;
+        this.description = description;
+        this.deadlineProbleme = deadlineProbleme;
+        this.fichierProbleme = fichierProbleme;
+        this.categorie = categorie;
+    }
+     
 
     public int getIdProbleme() {
         return idProbleme;
@@ -87,6 +95,14 @@ public class Probleme {
         this.MembreId = MembreId;
     }
 
+    public String getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
     @Override
     public String toString() {
         return "Probleme{" + "idProbleme=" + idProbleme + ", titre=" + titre + ", description=" + description + ", dateProbleme=" + dateProbleme + ", deadlineProbleme=" + deadlineProbleme + '}';
@@ -94,14 +110,14 @@ public class Probleme {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + this.idProbleme;
-        hash = 47 * hash + Objects.hashCode(this.titre);
-        hash = 47 * hash + Objects.hashCode(this.description);
-        hash = 47 * hash + Objects.hashCode(this.dateProbleme);
-        hash = 47 * hash + Objects.hashCode(this.deadlineProbleme);
-        hash = 47 * hash + Objects.hashCode(this.fichierProbleme);
-        hash = 47 * hash + this.MembreId;
+        int hash = 7;
+        hash = 67 * hash + this.idProbleme;
+        hash = 67 * hash + Objects.hashCode(this.titre);
+        hash = 67 * hash + Objects.hashCode(this.description);
+        hash = 67 * hash + Objects.hashCode(this.deadlineProbleme);
+        hash = 67 * hash + Objects.hashCode(this.fichierProbleme);
+        hash = 67 * hash + Objects.hashCode(this.categorie);
+        hash = 67 * hash + this.MembreId;
         return hash;
     }
 
@@ -129,11 +145,18 @@ public class Probleme {
         if (!Objects.equals(this.fichierProbleme, other.fichierProbleme)) {
             return false;
         }
+        if (!Objects.equals(this.categorie, other.categorie)) {
+            return false;
+        }
         if (this.MembreId != other.MembreId) {
             return false;
         }
         return true;
     }
+
+    
+
+     
     
 
 }

@@ -1,3 +1,5 @@
 /nbproject/private/
 /build/
-configuration.properties:
+configuration.properties
+/build/
+/dist/
