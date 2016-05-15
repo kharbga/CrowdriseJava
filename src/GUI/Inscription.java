@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Dao.MembreDao;
+import DAO.MembreDao;
 import entities.Membre;
 import javax.swing.JOptionPane;
 

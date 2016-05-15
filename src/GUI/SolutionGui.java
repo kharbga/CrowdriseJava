@@ -6,9 +6,6 @@
 package GUI;
 
 import DAO.SolutionDao;
-import Utils.DemandeAccepteeModel;
-import Utils.DemandeEnvoyerModel;
-import Utils.OffreModels;
 import entities.Solution;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -21,24 +18,14 @@ import java.io.OutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import Utils.DemandeEnvoyerModel;
-import com.sun.xml.internal.ws.api.ha.HaInfo;
-import entities.Probleme;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import utils.DataSource;
 
 /**
  *

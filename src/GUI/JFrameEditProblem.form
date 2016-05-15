@@ -99,10 +99,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane1" alignment="0" min="-2" pref="504" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jTxtFldTitreProb" alignment="0" min="-2" pref="280" max="-2" attributes="0"/>
-                                          <Component id="jDtChooserDeadline" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jTxtFldTitreProb" min="-2" pref="280" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
@@ -171,7 +168,6 @@
                               <Component id="jTxtFldFichier" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="jBtnJoindreFile" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jDtChooserDeadline" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -255,15 +251,6 @@
                   <Font name="Times New Roman" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="DeadLine :"/>
-              </Properties>
-            </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDtChooserDeadline">
-              <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="* Champ obligatoire"/>
-                <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Times New Roman" size="14" style="0"/>
-                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelFichier">

@@ -17,7 +17,7 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
  */
 public class PanelVideo extends javax.swing.JPanel {
 
-    private File vlcInstallPath = new File("C:/Program Files/VideoLAN/VLC");
+    private File vlcInstallPath = new File("C:\\Program Files\\VideoLAN\\VLC");
     private EmbeddedMediaPlayer player;
 
     /**

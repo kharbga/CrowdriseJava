@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Dao;
+package DAO;
 
 import Idao.IDAO;
 import entities.Projet;
@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
+import java.util.Date;
 
 /**
  *
@@ -39,7 +40,7 @@ public class ProjetDao implements IDAO<Projet> {
 
     @Override
     public void add(Projet p) {
-        String req = "insert into Projet (titre,description,type_financement,date_projet,deadline_projet,fichierProjet,imageProjet,Video_Projet,idcat_id,membre_id) values (?,?,?,?,?,?,?,?,?,?)";
+        String req = "insert into Projet (titre,description,type_financement,date_projet,deadline_projet,idcat_id,membre_id) values (?,?,?,?,?,?,?,?)";
         try {
             pst = connection.prepareStatement(req);
             pst.setString(1, p.getTitre());
@@ -47,9 +48,9 @@ public class ProjetDao implements IDAO<Projet> {
             pst.setString(3, p.getTypeFinancement());
             pst.setDate(4, p.getDateProjet());
             pst.setDate(5, p.getDeadlineProjet());
-            pst.setString(6, p.getFichierProjet());
-            pst.setString(7, p.getImageProjet());
-            pst.setString(8, p.getVideoProjet());
+//            pst.setString(6, p.getFichierProjet());
+//            pst.setString(7, p.getImageProjet());
+//            pst.setString(8, p.getVideoProjet());
             pst.setInt(9, p.getIdcat());
             pst.setInt(10, p.getMembreId());
 
@@ -164,6 +165,16 @@ public class ProjetDao implements IDAO<Projet> {
             return null;
         }
         
+    }
+
+    @Override
+    public List<Projet> findByTitre(String titre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Projet> findByCriteria(String titre, Date deadLine, String categ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

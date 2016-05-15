@@ -5,7 +5,7 @@
  */
 package Utils;
 
-import Dao.ProjetDao;
+import DAO.ProjetDao;
 import GUI.GestionProjects;
 import entities.Projet;
 import java.sql.Connection;
@@ -31,7 +31,7 @@ public class JtableListeProjet extends AbstractTableModel {
 
     public JtableListeProjet() {
         //récupération des données
-         c = utils.DataSource.getInstance().getConnection();
+         c = DataSource.getInstance().getConnection();
         ProjetDao pdao = new ProjetDao();
         listeProjet = pdao.findAll();
     }

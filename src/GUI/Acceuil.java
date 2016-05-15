@@ -7,6 +7,10 @@ package GUI;
 
 import Utils.PanelVideo;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.internet.ParseException;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -44,6 +48,13 @@ public class Acceuil extends javax.swing.JFrame {
         button2 = new java.awt.Button();
         button3 = new java.awt.Button();
         label1 = new java.awt.Label();
+        btgestionProjet = new javax.swing.JButton();
+        btgestionSolution = new java.awt.Button();
+        btgestionProblem = new java.awt.Button();
+        btgestionProfil = new java.awt.Button();
+        btMap = new java.awt.Button();
+        btDisconnexion = new java.awt.Button();
+        button4 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -59,11 +70,11 @@ public class Acceuil extends javax.swing.JFrame {
         Vidframe.getContentPane().setLayout(VidframeLayout);
         VidframeLayout.setHorizontalGroup(
             VidframeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 284, Short.MAX_VALUE)
         );
         VidframeLayout.setVerticalGroup(
             VidframeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 270, Short.MAX_VALUE)
+            .addGap(0, 374, Short.MAX_VALUE)
         );
 
         button1.setActionCommand("PLAY");
@@ -92,6 +103,56 @@ public class Acceuil extends javax.swing.JFrame {
         label1.setFont(new java.awt.Font("Dialog", 3, 36)); // NOI18N
         label1.setText("BIENVENUE SUR CROWDRISE");
 
+        btgestionProjet.setText("Gestion Projets");
+        btgestionProjet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btgestionProjetActionPerformed(evt);
+            }
+        });
+
+        btgestionSolution.setLabel("Gestion Solutions Solver");
+        btgestionSolution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btgestionSolutionActionPerformed(evt);
+            }
+        });
+
+        btgestionProblem.setLabel("Gestion Problémes");
+        btgestionProblem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btgestionProblemActionPerformed(evt);
+            }
+        });
+
+        btgestionProfil.setLabel("Gestion Profil");
+        btgestionProfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btgestionProfilActionPerformed(evt);
+            }
+        });
+
+        btMap.setLabel("MAP");
+        btMap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMapActionPerformed(evt);
+            }
+        });
+
+        btDisconnexion.setLabel("Deconnexion");
+        btDisconnexion.setName(""); // NOI18N
+        btDisconnexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDisconnexionActionPerformed(evt);
+            }
+        });
+
+        button4.setLabel("Gestion Solution Submitter");
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,30 +163,60 @@ public class Acceuil extends javax.swing.JFrame {
                         .addGap(119, 119, 119)
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(203, 203, 203)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Vidframe)
+                            .addComponent(btgestionSolution, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(btgestionProjet, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(btgestionProblem, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(button4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btgestionProfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(50, 50, 50)
+                                .addGap(51, 51, 51)
                                 .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(143, Short.MAX_VALUE))
+                                .addGap(53, 53, 53)
+                                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Vidframe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btDisconnexion, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))))))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Vidframe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(157, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(btMap, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(131, 131, 131)
+                        .addComponent(btDisconnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Vidframe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(btgestionProjet, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btgestionSolution, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btgestionProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(btgestionProfil, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,6 +236,56 @@ public class Acceuil extends javax.swing.JFrame {
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
         player.stop();
     }//GEN-LAST:event_button3ActionPerformed
+
+    private void btgestionProjetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionProjetActionPerformed
+    this.dispose();
+    player.stop();
+    new GestionProjects().setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_btgestionProjetActionPerformed
+
+    private void btgestionSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionSolutionActionPerformed
+ this.dispose();
+ player.stop();
+    new SolutionGui().setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btgestionSolutionActionPerformed
+
+    private void btMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMapActionPerformed
+ this.dispose();
+ player.stop();
+    new JFrameMap().setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btMapActionPerformed
+
+    private void btgestionProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionProblemActionPerformed
+ this.dispose();
+ player.stop();
+    new JFrameProblem().setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btgestionProblemActionPerformed
+
+    private void btgestionProfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionProfilActionPerformed
+ this.dispose();
+ player.stop();
+        try {
+            new JProfil().setVisible(true);        // TODO add your handling code here:
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btgestionProfilActionPerformed
+
+    private void btDisconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDisconnexionActionPerformed
+        this.dispose();
+        player.stop();
+    new Login().setVisible(true);
+    }//GEN-LAST:event_btDisconnexionActionPerformed
+
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+this.dispose();
+ player.stop();
+    new SolutionGuiSubmitter().setVisible(true);          // TODO add your handling code here:
+    }//GEN-LAST:event_button4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,9 +324,16 @@ public class Acceuil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame Vidframe;
+    private java.awt.Button btDisconnexion;
+    private java.awt.Button btMap;
+    private java.awt.Button btgestionProblem;
+    private java.awt.Button btgestionProfil;
+    private javax.swing.JButton btgestionProjet;
+    private java.awt.Button btgestionSolution;
     private java.awt.Button button1;
     private java.awt.Button button2;
     private java.awt.Button button3;
+    private java.awt.Button button4;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }

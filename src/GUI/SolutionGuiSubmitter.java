@@ -41,7 +41,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import utils.DataSource;
+import Utils.DataSource;
 
 /**
  *

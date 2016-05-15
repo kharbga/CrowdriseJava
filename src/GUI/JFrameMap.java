@@ -30,7 +30,7 @@ public class JFrameMap extends javax.swing.JFrame {
         BrowserView browserView = new BrowserView(browser);
 
          
-        browser.loadURL("C:\\Users\\asalhi\\Documents\\NetBeansProjects\\JavaPidevCrowdrise\\src\\Utils\\map.html");
+        browser.loadURL("C:\\wamp\\www\\JavaPIDEV\\JavaPidevCrowdrise\\src\\Utils\\map.html");
 
         zoomInButton = new JButton("Zoom In");
 

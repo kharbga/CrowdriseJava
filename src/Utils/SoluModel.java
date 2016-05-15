@@ -15,21 +15,21 @@ public class SoluModel extends AbstractTableModel {
     String[] colonnes = {"ID", "Solution", "Description", "Salaire", "Fichier", "Membre"};
 
     public SoluModel() {
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listSol = probDao.findAllSol();
 
     }
 
     public SoluModel(int idProb) {
 
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listSol = probDao.findSolByProb(idProb);
 
     }
 
     public SoluModel(String etat) {
 
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listSol = probDao.findSolByEtat(etat);
 
     }

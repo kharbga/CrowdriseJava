@@ -7,8 +7,8 @@ package crowdrise;
 
 
 import GUI.JProfil;
-import dao.NotificationDAO;
-import dao.ProfilDAO;
+import DAO.NotificationDAO;
+import DAO.ProfilDAO;
 import entities.Profil;
 import java.util.Date;
 import java.awt.BorderLayout;

@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package dao;
+package DAO;
 
-import Idao.IDAO;
 import entities.Competence;
-import java.util.List;
 import Idao.IDAO;
-import entities.Notification;
-import entities.Profil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
+import java.util.Date;
 
 /**
  *
@@ -147,6 +139,16 @@ public class CompetenceDAO  implements IDAO<Competence>{
             Logger.getLogger(CompetenceDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeCompetence ;
+    }
+
+    @Override
+    public List<Competence> findByTitre(String titre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Competence> findByCriteria(String titre, Date deadLine, String categ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

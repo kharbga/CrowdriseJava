@@ -6,7 +6,7 @@
 package GUI;
 
 import entities.Membre;
-import Dao.MembreDao;
+import DAO.MembreDao;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import static jdk.nashorn.internal.objects.NativeString.trim;
@@ -189,7 +189,7 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Votre compte est désactivé veuillez contactez l'administration.");
                 } else {       
                     this.dispose();
-                   new GestionProjects().setVisible(true);
+                   new Acceuil().setVisible(true);
                 }
                 
             } else {

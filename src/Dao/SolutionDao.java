@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
+import java.util.Date;
 
 /**
  *
@@ -43,7 +44,7 @@ public class SolutionDao implements IDAO<Solution> {
     }
 
     public void updateFichierSolution(String file, int id) {
-        String req = "UPDATE solution SET fichier_solution = ? WHERE id_solution=?";
+        String req = "UPDATE solution SET fichierSolution = ? WHERE id_solution=?";
         try {
 
             pst = connection.prepareStatement(req);
@@ -342,6 +343,16 @@ public class SolutionDao implements IDAO<Solution> {
 
     @Override
     public void add(Solution t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Solution> findByTitre(String titre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Solution> findByCriteria(String titre, Date deadLine, String categ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

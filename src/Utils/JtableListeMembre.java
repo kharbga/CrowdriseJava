@@ -5,13 +5,13 @@
  */
 package Utils;
 
-import Dao.MembreDao;
+import DAO.MembreDao;
 import entities.Membre;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-
+import Utils.DataSource;
 /**
  *
  * @author kouki
@@ -25,7 +25,7 @@ public class JtableListeMembre extends AbstractTableModel {
 
     public JtableListeMembre() {
         //récupération des données
-        c = utils.DataSource.getInstance().getConnection();
+        c = DataSource.getInstance().getConnection();
         MembreDao pdao = new MembreDao();
         listeMembre = pdao.findAll();
     }

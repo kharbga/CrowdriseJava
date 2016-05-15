@@ -33,6 +33,7 @@ public class JFrameEditProblem extends javax.swing.JFrame {
     public int num;
     public String filePath;
     public String fileName;
+    private JDateChooser jDtChooserDeadline;
 
     public JFrameEditProblem(String title) throws HeadlessException {
         super(title);
@@ -72,7 +73,6 @@ public class JFrameEditProblem extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jComboCategorie = new javax.swing.JComboBox();
         jLabelDeadline = new javax.swing.JLabel();
-        jDtChooserDeadline = new com.toedter.calendar.JDateChooser();
         jLabelFichier = new javax.swing.JLabel();
         jTxtFldFichier = new javax.swing.JTextField();
         jBtnJoindreFile = new javax.swing.JButton();
@@ -116,10 +116,6 @@ public class JFrameEditProblem extends javax.swing.JFrame {
 
         jLabelDeadline.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabelDeadline.setText("DeadLine :");
-
-        jDtChooserDeadline.setToolTipText("* Champ obligatoire");
-        jDtChooserDeadline.setDateFormatString("dd/MM/yyyy");
-        jDtChooserDeadline.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         jLabelFichier.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabelFichier.setText("Fichier :");
@@ -186,9 +182,7 @@ public class JFrameEditProblem extends javax.swing.JFrame {
                         .addGroup(jPanelModifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelModifLayout.createSequentialGroup()
-                                .addGroup(jPanelModifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTxtFldTitreProb, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jDtChooserDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTxtFldTitreProb, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(95, 95, 95)
                                 .addGroup(jPanelModifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanelModifLayout.createSequentialGroup()
@@ -237,8 +231,7 @@ public class JFrameEditProblem extends javax.swing.JFrame {
                         .addComponent(jLabelDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelModifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTxtFldFichier, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jBtnJoindreFile, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDtChooserDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jBtnJoindreFile, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanelModifLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelModifLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -316,10 +309,10 @@ public class JFrameEditProblem extends javax.swing.JFrame {
         }  else {
             try {
                 
-                new dao.Problemedao().addToMedia(num + 1, fileName, filePath);
-                new dao.Problemedao().uploadFile(filePath,"C:\\xampp\\htdocs\\Pidev\\web\\uploads\\" + fileName );
+                new DAO.ProblemeDao().addToMedia(num + 1, fileName, filePath);
+                new DAO.ProblemeDao().uploadFile(filePath,"C:\\xampp\\htdocs\\Pidev\\web\\uploads\\" + fileName );
                 
-                new dao.Problemedao().update(new Probleme(Integer.valueOf(jTxtFldIDProb.getText()), jTxtFldTitreProb.getText(),
+                new DAO.ProblemeDao().update(new Probleme(Integer.valueOf(jTxtFldIDProb.getText()), jTxtFldTitreProb.getText(),
                          jTextAreaDescriptionProb.getText(), jDtChooserDeadline.getDate(), String.valueOf(num+1),
                           jComboCategorie.getSelectedItem().toString()));
                  
@@ -348,7 +341,7 @@ public class JFrameEditProblem extends javax.swing.JFrame {
             filePath = file.getAbsolutePath();
             fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 
-            num = new dao.Problemedao().getFileNumber();
+            num = new DAO.ProblemeDao().getFileNumber();
 
             jTxtFldFichier.setText(fileName);
         }
@@ -403,7 +396,6 @@ public class JFrameEditProblem extends javax.swing.JFrame {
     private javax.swing.JButton jBtnJoindreFile;
     private javax.swing.JButton jBtnValider;
     private javax.swing.JComboBox jComboCategorie;
-    private com.toedter.calendar.JDateChooser jDtChooserDeadline;
     private javax.swing.JFileChooser jFileChooserModif;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelDeadline;

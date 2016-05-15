@@ -15,11 +15,11 @@ public class ProblemesModel extends AbstractTableModel {
     List< Probleme> listProb;
 
     public ProblemesModel() {
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listProb = probDao.findAll();
     }
     public ProblemesModel(String titre,Date deadLine,String categ) {
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listProb = probDao.findByCriteria(titre,deadLine,categ);
     }
 

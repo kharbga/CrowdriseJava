@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog1">
-    </Component>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog2">
-    </Component>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog3">
-    </Component>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog4">
-    </Component>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog5">
-    </Component>
-    <Component class="datechooser.beans.DateChooserDialog" name="dateChooserDialog6">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -82,7 +68,6 @@
                               <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="pseudoTf" min="-2" pref="168" max="-2" attributes="0"/>
-                                  <Component id="datePicker" min="-2" max="-2" attributes="0"/>
                                   <Component id="prenomTf" alignment="1" min="-2" pref="168" max="-2" attributes="0"/>
                                   <Component id="nomTf" alignment="1" min="-2" pref="168" max="-2" attributes="0"/>
                               </Group>
@@ -90,9 +75,13 @@
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="dateAffiche1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="205" max="32767" attributes="0"/>
+                      <EmptySpace pref="232" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -163,9 +152,10 @@
                                   <Component id="pseudoTf" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="datePicker" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dateAffiche1" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -243,8 +233,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ajouterProfilBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="com.toedter.calendar.JCalendar" name="datePicker">
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pseudo :"/>
@@ -308,6 +296,8 @@
                   </Border>
                 </Property>
               </Properties>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="dateAffiche1">
             </Component>
           </SubComponents>
         </Container>
@@ -588,7 +578,6 @@
                                       <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="pseudoTf1" alignment="1" min="-2" pref="168" max="-2" attributes="0"/>
-                                          <Component id="dateAffiche1" alignment="1" min="-2" max="-2" attributes="0"/>
                                           <Component id="prenomTf1" alignment="1" min="-2" pref="168" max="-2" attributes="0"/>
                                           <Component id="nomTf1" alignment="1" min="-2" pref="168" max="-2" attributes="0"/>
                                       </Group>
@@ -600,7 +589,7 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="292" max="32767" attributes="0"/>
+                              <EmptySpace pref="294" max="32767" attributes="0"/>
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           </Group>
@@ -609,15 +598,12 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="206" max="32767" attributes="0"/>
                                       <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="idProfilModif" min="-2" pref="56" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="modifierAfficheBtn" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="modifierAfficheBtn" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
@@ -712,8 +698,6 @@
                               </Group>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="dateAffiche1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="ajouterProfilBtn1" min="-2" pref="37" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -764,8 +748,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ajouterProfilBtn1ActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="com.toedter.calendar.JCalendar" name="dateAffiche1">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">
               <Properties>

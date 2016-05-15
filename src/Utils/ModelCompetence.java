@@ -5,7 +5,7 @@
  */
 package Utils;
 
-import dao.CompetenceDAO;
+import DAO.CompetenceDAO;
 import entities.Competence;
 import java.util.ArrayList;
 import java.util.List;

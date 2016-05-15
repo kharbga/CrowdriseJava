@@ -13,7 +13,7 @@ public class ProbModel extends AbstractTableModel {
     List< Probleme> listProb;
 
     public ProbModel() {
-        dao.Problemedao probDao = new dao.Problemedao();
+        DAO.ProblemeDao probDao = new DAO.ProblemeDao();
         listProb = probDao.findAll();
     }
 

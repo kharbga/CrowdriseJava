@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package DAO;
 
 import Idao.IDAO;
 import entities.Notification;
@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
+import java.util.Date;
 
 /**
  *
@@ -127,6 +128,16 @@ public class NotificationDAO implements IDAO<Notification> {
             System.out.println("erreur lors de la recherche d'une notification " + ex.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public List<Notification> findByTitre(String titre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Notification> findByCriteria(String titre, Date deadLine, String categ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

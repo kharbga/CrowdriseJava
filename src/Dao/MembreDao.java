@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Dao;
+package DAO;
+
 
 import Idao.IDAO;
 import entities.Membre;
@@ -15,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
+import java.util.Date;
 
 /**
  *
@@ -32,15 +29,16 @@ public class MembreDao implements IDAO<Membre> {
 
     @Override
     public void add(Membre p) {
-        String req = "insert into Membre (nom,prenom,username,password,roles,email,etat) values (?,?,?,?,?,?,1)";
+        String req = "insert into Membre (nom,prenom,username,username_canonical,password,roles,email,enabled) values (?,?,?,?,?,?,?,1)";
         try {
             pst = connection.prepareStatement(req);
             pst.setString(1, p.getNom());
             pst.setString(2, p.getPrenom());
             pst.setString(3, p.getUsername());
-            pst.setString(4, p.getPassword());
-            pst.setString(5, p.getRoles());
-            pst.setString(6, p.getEmail());
+            pst.setString(4, p.getUsername());
+            pst.setString(5, p.getPassword());
+            pst.setString(6, p.getRoles());
+            pst.setString(7, p.getEmail());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProjetDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,16 +48,17 @@ public class MembreDao implements IDAO<Membre> {
 
     @Override
     public void update(Membre p) {
-        String req = "UPDATE Projet SET nom = ? , prenom= ? , username= ? , password= ? , roles= ? , email = ?  WHERE id =? ";
+        String req = "UPDATE Projet SET nom = ? , prenom= ? , username= ? ,username_canonical =?, password= ? , roles= ? , email = ?  WHERE id =? ";
         try {
             pst = connection.prepareStatement(req);
             pst.setString(1, p.getNom());
             pst.setString(2, p.getPrenom());
             pst.setString(3, p.getUsername());
-            pst.setString(4, p.getPassword());
-            pst.setString(5, p.getRoles());
-            pst.setString(6, p.getEmail());
-            pst.setInt(7, p.getId());
+            pst.setString(4, p.getUsername());
+            pst.setString(5, p.getPassword());
+            pst.setString(6, p.getRoles());
+            pst.setString(7, p.getEmail());
+            pst.setInt(8, p.getId());
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProjetDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,7 +82,7 @@ public class MembreDao implements IDAO<Membre> {
     public List<Membre> findAll() {
         List<Membre> projetList = new ArrayList<Membre>();
 
-        String req = "SELECT id,username,password,roles,prenom,nom,email,etat FROM  Membre ";
+        String req = "SELECT id,username,password,roles,prenom,nom,email,enabled FROM  Membre ";
 
         ResultSet rs;
 
@@ -102,7 +101,7 @@ public class MembreDao implements IDAO<Membre> {
                         rs.getString("password"),
                         rs.getString("roles"),
                         rs.getString("email"),
-                        rs.getInt("etat")
+                        rs.getInt("enabled")
                 );
                 projetList.add(m);
             }
@@ -116,7 +115,7 @@ public class MembreDao implements IDAO<Membre> {
     @Override
     public Membre findById(int id) {
         Membre m = new Membre();
-        String requete = "select id,username,password,roles,prenom,nom,email,etat FROM  Membre where id=?";
+        String requete = "select id,username,password,roles,prenom,nom,email,enabled FROM  Membre where id=?";
         try {
             PreparedStatement ps = connection.prepareStatement(requete);
             ps.setInt(1, id);
@@ -164,7 +163,7 @@ public class MembreDao implements IDAO<Membre> {
     }
 
     public void updateEtat(Membre p) {
-        String req = "UPDATE Membre SET etat = ?  WHERE id =? ";
+        String req = "UPDATE Membre SET enabled = ?  WHERE id =? ";
         try {
             pst = connection.prepareStatement(req);
             pst.setInt(1, p.getEtat());
@@ -177,7 +176,7 @@ public class MembreDao implements IDAO<Membre> {
 
     public Membre findBylogs(Membre user) {
         Membre m = new Membre();
-        String requete = "select id,username,password,roles,prenom,nom,email,etat FROM  Membre where username=? and password=?";
+        String requete = "select id,username,password,roles,prenom,nom,email,enabled FROM  Membre where username=? and password=?";
         try {
             pst = connection.prepareStatement(requete);
             pst.setString(1, user.getUsername());
@@ -200,5 +199,15 @@ public class MembreDao implements IDAO<Membre> {
             return null;
         }
 
+    }
+
+    @Override
+    public List<Membre> findByTitre(String titre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Membre> findByCriteria(String titre, Date deadLine, String categ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

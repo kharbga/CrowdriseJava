@@ -1,4 +1,4 @@
-package dao;
+package DAO;
 
 import entities.Probleme;
 import entities.Solution;
@@ -11,24 +11,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DataSource;
+import Utils.DataSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 /**
  *
  * @author asalhi
  */
-public class Problemedao implements Idao.IDAO<Probleme> {
+public class ProblemeDao implements Idao.IDAO<Probleme> {
 
     private Connection connection;
     private PreparedStatement pst;
 
-    public Problemedao() {
+    public ProblemeDao() {
         //initialiser la connection
         connection = DataSource.getInstance().getConnection();
 
@@ -76,7 +75,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst.setString(3,path);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -96,7 +95,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst.setDate(5, new java.sql.Date(p.getDeadlineProbleme().getTime()));
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,7 +113,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst.setInt(6, p.getIdProbleme());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -125,7 +124,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst = connection.prepareStatement(req);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -135,7 +134,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst = connection.prepareStatement(req);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -168,7 +167,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeProblemes;
     }
@@ -223,7 +222,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeProblemes;
     }
@@ -254,7 +253,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeSol;
     }
@@ -286,7 +285,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeSol;
     }
@@ -317,7 +316,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listeSol;
     }
@@ -328,7 +327,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
             pst = connection.prepareStatement(req);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public int getFileNumber(){
@@ -341,7 +340,7 @@ public class Problemedao implements Idao.IDAO<Probleme> {
                 number = resultat.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Problemedao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return number;
     }

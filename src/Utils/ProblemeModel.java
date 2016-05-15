@@ -25,7 +25,7 @@ public class ProblemeModel extends AbstractTableModel {
 
     public ProblemeModel() {
         SolutionDao sDao = new SolutionDao();
-        listSolutions = sDao.getAllProblems(2);   
+        listSolutions = sDao.getAllProblems(2); //ID Membre   
 
     }
 

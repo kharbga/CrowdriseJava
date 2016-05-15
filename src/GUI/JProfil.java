@@ -9,9 +9,9 @@ package GUI;
 
 import Utils.ModelCompetence;
 import Utils.SendEmailUsingGMailSMTP;
-import dao.CompetenceDAO;
-import dao.NotificationDAO;
-import dao.ProfilDAO;
+import DAO.CompetenceDAO;
+import DAO.NotificationDAO;
+import DAO.ProfilDAO;
 import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
@@ -70,12 +70,6 @@ public class JProfil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dateChooserDialog1 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog2 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog3 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog4 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog5 = new datechooser.beans.DateChooserDialog();
-        dateChooserDialog6 = new datechooser.beans.DateChooserDialog();
         jTabbedPane5 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -85,7 +79,6 @@ public class JProfil extends javax.swing.JFrame {
         prenomTf = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         ajouterProfilBtn = new javax.swing.JButton();
-        datePicker = new com.toedter.calendar.JCalendar();
         jLabel5 = new javax.swing.JLabel();
         pseudoTf = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -97,6 +90,7 @@ public class JProfil extends javax.swing.JFrame {
         browseBtn = new javax.swing.JButton();
         photoPathLabel = new javax.swing.JLabel();
         photoLabel = new javax.swing.JLabel();
+        dateAffiche1 = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         photoProfilLabel = new javax.swing.JLabel();
@@ -124,7 +118,6 @@ public class JProfil extends javax.swing.JFrame {
         prenomTf1 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         ajouterProfilBtn1 = new javax.swing.JButton();
-        dateAffiche1 = new com.toedter.calendar.JCalendar();
         jLabel13 = new javax.swing.JLabel();
         pseudoTf1 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
@@ -241,14 +234,16 @@ public class JProfil extends javax.swing.JFrame {
                         .addGap(62, 62, 62)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pseudoTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(prenomTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nomTf, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel3)
                     .addComponent(jLabel5)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(32, 32, 32)
+                        .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,9 +296,9 @@ public class JProfil extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(pseudoTf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -569,7 +564,6 @@ public class JProfil extends javax.swing.JFrame {
                                 .addGap(62, 62, 62)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(prenomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(nomTf1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel11)
@@ -577,20 +571,18 @@ public class JProfil extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(jLabel12)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addContainerGap(292, Short.MAX_VALUE)
+                        .addContainerGap(294, Short.MAX_VALUE)
                         .addComponent(jLabel9)
                         .addGap(48, 48, 48)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 206, Short.MAX_VALUE)
                                 .addComponent(jLabel18)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(idProfilModif, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(modifierAfficheBtn)))
+                            .addComponent(modifierAfficheBtn))
                         .addGap(39, 39, 39))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -662,8 +654,6 @@ public class JProfil extends javax.swing.JFrame {
                             .addComponent(pseudoTf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
                         .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dateAffiche1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ajouterProfilBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33))))
@@ -1052,7 +1042,7 @@ public class JProfil extends javax.swing.JFrame {
         p.setNom(nomTf.getText());
         p.setPrenom(prenomTf.getText());
         p.setAdresse(adresseTa.getText());
-        p.setDateNaissance(datePicker.getDate());
+        p.setDateNaissance(dateAffiche1.getDate());
         p.setImage(photoPathLabel.getText());
         p.setProfession(professionTf.getText());
         p.setPseudo(pseudoTf.getText());
@@ -1282,14 +1272,7 @@ public class JProfil extends javax.swing.JFrame {
     private javax.swing.JButton browseBtn;
     private javax.swing.JButton browseBtn1;
     private javax.swing.JLabel dateAffiche;
-    private com.toedter.calendar.JCalendar dateAffiche1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog1;
-    private datechooser.beans.DateChooserDialog dateChooserDialog2;
-    private datechooser.beans.DateChooserDialog dateChooserDialog3;
-    private datechooser.beans.DateChooserDialog dateChooserDialog4;
-    private datechooser.beans.DateChooserDialog dateChooserDialog5;
-    private datechooser.beans.DateChooserDialog dateChooserDialog6;
-    private com.toedter.calendar.JCalendar datePicker;
+    private com.toedter.calendar.JDateChooser dateAffiche1;
     private javax.swing.JTextField idProfilModif;
     private javax.swing.JTextField idProfilTf;
     private javax.swing.JButton jButton1;
