@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 /**
  *
  * @author asalhi
@@ -32,60 +33,58 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
         connection = DataSource.getInstance().getConnection();
 
     }
+
     public void uploadFile(String source, String destination) {
         InputStream inStream = null;
-	OutputStream outStream = null;
-		
-    	try{
-    		
-    	    File sourceFile =new File(source);
-    	    File destinationFile =new File(destination);
-    		
-    	    inStream = new FileInputStream(sourceFile);
-    	    outStream = new FileOutputStream(destinationFile);
-        	
-    	    byte[] buffer = new byte[1024];
-    		
-    	    int length;
-    	    //copy the file content in bytes 
-    	    while ((length = inStream.read(buffer)) > 0){
-    	  
-    	    	outStream.write(buffer, 0, length);
-    	 
-    	    }
-    	 
-    	    inStream.close();
-    	    outStream.close();
-   	    
-    	}catch(IOException e){
-    		e.printStackTrace();
-    	}
+        OutputStream outStream = null;
+
+        try {
+
+            File sourceFile = new File(source);
+            File destinationFile = new File(destination);
+
+            inStream = new FileInputStream(sourceFile);
+            outStream = new FileOutputStream(destinationFile);
+
+            byte[] buffer = new byte[1024];
+
+            int length;
+            //copy the file content in bytes 
+            while ((length = inStream.read(buffer)) > 0) {
+
+                outStream.write(buffer, 0, length);
+
+            }
+
+            inStream.close();
+            outStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-     
-    public void addToMedia(int id,String nom, String path) {
-        
-        
+
+    public void addToMedia(int id, String nom, String path) {
+
         String req = "insert into media (id,updated_at, name,path) values (?,CURDATE(),?,?)";
-        try { 
+        try {
             pst = connection.prepareStatement(req);
 
             pst.setInt(1, id);
-            pst.setString(2,nom);
-            pst.setString(3,path);
+            pst.setString(2, nom);
+            pst.setString(3, path);
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
     @Override
     public void add(Probleme p) {
-        
-        
+
         String req = "insert into probleme (fichier,titre, description,categorie,deadline_probleme,date_probleme) values (?,?,?,?,?,CURDATE())";
-        try { 
+        try {
             pst = connection.prepareStatement(req);
 
             pst.setString(1, p.getFichierProbleme());
@@ -145,7 +144,7 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
 
         try {
             String req = "Select p.id_probleme,m.name ,p.titre, p.date_probleme,p.description,p.categorie,p.deadline_probleme,p.membre_id"
-                    + " from probleme p , media m where p.fichier = m.id "; 
+                    + " from probleme p , media m where p.fichier = m.id ";
 
             pst = connection.prepareStatement(req);
 
@@ -191,7 +190,7 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
             String req = "Select p.id_probleme,m.name ,p.titre, p.date_probleme,p.description,p.categorie,p.deadline_probleme,p.membre_id"
                     + " from probleme p , media m where p.fichier = m.id ";
             if (deadLine != null) {
-                req += " and p.deadline_probleme = ?" ;
+                req += " and p.deadline_probleme = ?";
             }
             if (titre != null && !titre.equals("")) {
                 req += " and p.titre like'%" + titre + "%'";
@@ -202,14 +201,15 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
             }
             pst = connection.prepareStatement(req);
 
-            
-            if (deadLine != null) pst.setDate(1, new java.sql.Date(deadLine.getTime()));
-            
+            if (deadLine != null) {
+                pst.setDate(1, new java.sql.Date(deadLine.getTime()));
+            }
+
             ResultSet resultat = pst.executeQuery();
 
             while (resultat.next()) {
 
-                 p = new Probleme();
+                p = new Probleme();
                 p.setIdProbleme(resultat.getInt(1));
                 p.setFichierProbleme(resultat.getString(2));
                 p.setTitre(resultat.getString(3));
@@ -263,8 +263,8 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
         Solution s;
 
         try {
-             String req = "Select * from solution where 1 = 2";
-          
+            String req = "Select * from solution where 1 = 2";
+
             pst = connection.prepareStatement(req);
 
             ResultSet resultat = pst.executeQuery();
@@ -330,7 +330,8 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
             Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public int getFileNumber(){
+
+    public int getFileNumber() {
         int number = 0;
         String req = "select max(id) from media";
         try {
@@ -343,5 +344,30 @@ public class ProblemeDao implements Idao.IDAO<Probleme> {
             Logger.getLogger(ProblemeDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return number;
+    }
+
+    public List<Probleme> getAllProblems() {
+
+        List<Probleme> listeProbleme = new ArrayList<Probleme>();
+        Probleme p = new Probleme();
+
+        try {
+            String req = "SELECT `id_probleme`, `titre`, `description`, `date_probleme`, `deadline_probleme` FROM `probleme`";
+            PreparedStatement pst = connection.prepareStatement(req);
+            ResultSet resultat = pst.executeQuery();
+
+            while (resultat.next()) {
+                p.setIdProbleme(resultat.getInt(1));
+                p.setTitre(resultat.getString(2));
+                p.setDescription(resultat.getString(3));               
+                p.setDateProbleme(resultat.getDate(4));
+                p.setDeadlineProbleme(resultat.getDate(5));               
+                listeProbleme.add(p);
+                p = new Probleme();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SolutionDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listeProbleme;
     }
 }

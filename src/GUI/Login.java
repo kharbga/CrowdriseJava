@@ -7,8 +7,15 @@ package GUI;
 
 import entities.Membre;
 import DAO.MembreDao;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
+import java.awt.Toolkit;
+import java.text.ParseException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import static jdk.nashorn.internal.objects.NativeString.trim;
 
 /**
@@ -16,12 +23,14 @@ import static jdk.nashorn.internal.objects.NativeString.trim;
  * @author kouki
  */
 public class Login extends javax.swing.JFrame {
-    
+
     public static Membre session;
 
-    public Login() {
+    public Login() throws UnsupportedLookAndFeelException, ParseException {
+        UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
         initComponents();
-        
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+
     }
 
     /**
@@ -168,37 +177,60 @@ public class Login extends javax.swing.JFrame {
 
     private void btInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInscriptionActionPerformed
         this.dispose();
-        new Inscription().setVisible(true);// TODO add your handling code here:
+        try {
+            new Inscription().setVisible(true);// TODO add your handling code here:
+        } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btInscriptionActionPerformed
 
     private void btConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConnexionActionPerformed
-       
+
         Membre m;
         MembreDao mdao;
         mdao = new MembreDao();
         if (txtPass.getText().trim().length() == 0 && txtUser.getText().trim().length() == 0) {
-             JOptionPane.showMessageDialog(this, "Vous devez remplir tout les champs!");
+            JOptionPane.showMessageDialog(this, "Vous devez remplir tout les champs!");
         } else {
             m = new Membre(txtUser.getText(), txtPass.getText());
-            
+
             if (mdao.verifLogin(m) == true) {
-                
+
                 session = mdao.findBylogs(m);
-             
+
                 if (session.getEtat() == 0) {
                     JOptionPane.showMessageDialog(this, "Votre compte est désactivé veuillez contactez l'administration.");
-                } else {       
+                } else {
                     this.dispose();
-                   new Acceuil().setVisible(true);
+                    if (session.getRoles().equals("a:1:{i:0;s:11:" + '"' + "ROLE_SOLVER" + '"' + ";}")) {
+                        try {
+                            new AcceuilSolver().setVisible(true);
+                        } catch (UnsupportedLookAndFeelException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else if (session.getRoles().equals("a:1:{i:0;s:15:" + '"' + "ROLE_SUBMITTER" + '"' + ";}")) {
+                        try {
+                            new AcceuilSubmitter().setVisible(true);
+                        } catch (UnsupportedLookAndFeelException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
+                            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println(session.getRoles());
+                    }
                 }
-                
+
             } else {
-                
-                  JOptionPane.showMessageDialog(this, "Mot De Passe ou Login Incorrect.");
+
+                JOptionPane.showMessageDialog(this, "Mot De Passe ou Login Incorrect.");
             }
-            
+
         }
-        
+
 
     }//GEN-LAST:event_btConnexionActionPerformed
 
@@ -216,23 +248,34 @@ public class Login extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    new Login().setVisible(true);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

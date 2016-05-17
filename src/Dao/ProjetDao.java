@@ -51,8 +51,8 @@ public class ProjetDao implements IDAO<Projet> {
 //            pst.setString(6, p.getFichierProjet());
 //            pst.setString(7, p.getImageProjet());
 //            pst.setString(8, p.getVideoProjet());
-            pst.setInt(9, p.getIdcat());
-            pst.setInt(10, p.getMembreId());
+            pst.setInt(6, p.getIdcat());
+            pst.setInt(7, p.getMembreId());
 
             pst.executeUpdate();
         } catch (SQLException ex) {

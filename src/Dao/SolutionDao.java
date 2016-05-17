@@ -223,8 +223,9 @@ public class SolutionDao implements IDAO<Solution> {
                 p.setIdProbleme(resultat.getInt(1));
                 p.setTitre(resultat.getString(2));
                 p.setDescription(resultat.getString(3));
-                //Voir 
-//                p.setDateProbleme(resultat.getDate(4));
+                System.out.println("HHHHHHHHHHHHHHHHHH");
+                System.out.println(resultat.getDate(4));
+//                p.setDateProbleme(String.format(resultat.getDate(4), "yyyy-mm-dd"));
 //                p.setDeadlineProbleme(resultat.getDate(5));               
                 listeProbleme.add(p);
                 p = new Probleme();

@@ -5,8 +5,6 @@
  */
 package GUI;
 
-
-
 import Utils.ModelCompetence;
 import Utils.SendEmailUsingGMailSMTP;
 import DAO.CompetenceDAO;
@@ -20,6 +18,7 @@ import entities.Competence;
 import entities.Notification;
 import entities.Profil;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.logging.Level;
@@ -42,23 +41,26 @@ public class JProfil extends javax.swing.JFrame {
      * Creates new form JProfil
      */
     public JProfil() throws UnsupportedLookAndFeelException, ParseException, java.text.ParseException {
+
         UIManager.setLookAndFeel(new SyntheticaBlackStarLookAndFeel());
         initComponents();
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+
         NotificationDAO ndao = new NotificationDAO();
         ndao.findAll();
         notificationTable.setModel(new DefaultTableModel(
-                new Object[ndao.getListeNotification().size()][], 
+                new Object[ndao.getListeNotification().size()][],
                 new String[]{
-                    "Id","Notification"
+                    "Id", "Notification"
                 }));
-        int i = 0 ;
-        for(Notification n : ndao.getListeNotification()){
+        int i = 0;
+        for (Notification n : ndao.getListeNotification()) {
             notificationTable.setValueAt(n.getId(), i, 0);
             notificationTable.setValueAt(n.getMessage(), i, 1);
             i++;
         }
-       PanelAjouterComp.setVisible(false);
-       PanelModfierComp.setVisible(false);
+        PanelAjouterComp.setVisible(false);
+        PanelModfierComp.setVisible(false);
     }
 
     /**
@@ -982,11 +984,11 @@ public class JProfil extends javax.swing.JFrame {
         String filename = f.getAbsolutePath();
         photoPathLabel1.setText(filename);
         try {
-        ImageIcon ii=new ImageIcon(ImageIO.read(new File(f.getAbsolutePath())).getScaledInstance(258, 139, Image.SCALE_DEFAULT));//get the image from file chooser and scale it to match JLabel size
-        photoLabel1.setIcon(ii);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
+            ImageIcon ii = new ImageIcon(ImageIO.read(new File(f.getAbsolutePath())).getScaledInstance(258, 139, Image.SCALE_DEFAULT));//get the image from file chooser and scale it to match JLabel size
+            photoLabel1.setIcon(ii);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_browseBtn1ActionPerformed
 
     private void professionTf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_professionTf1ActionPerformed
@@ -1009,7 +1011,7 @@ public class JProfil extends javax.swing.JFrame {
         String filename = f.getAbsolutePath();
         photoPathLabel.setText(filename);
         try {
-            ImageIcon ii=new ImageIcon(ImageIO.read(new File(f.getAbsolutePath())).getScaledInstance(258, 139, Image.SCALE_DEFAULT));//get the image from file chooser and scale it to match JLabel size
+            ImageIcon ii = new ImageIcon(ImageIO.read(new File(f.getAbsolutePath())).getScaledInstance(258, 139, Image.SCALE_DEFAULT));//get the image from file chooser and scale it to match JLabel size
             photoLabel.setIcon(ii);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1037,7 +1039,7 @@ public class JProfil extends javax.swing.JFrame {
 
     private void ajouterProfilBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterProfilBtnActionPerformed
         // TODO add your handling code here:
-        ProfilDAO  pdao = new ProfilDAO();
+        ProfilDAO pdao = new ProfilDAO();
         Profil p = new Profil();
         p.setNom(nomTf.getText());
         p.setPrenom(prenomTf.getText());
@@ -1047,14 +1049,14 @@ public class JProfil extends javax.swing.JFrame {
         p.setProfession(professionTf.getText());
         p.setPseudo(pseudoTf.getText());
         pdao.add(p);
-        
+
         NotificationDAO ndao = new NotificationDAO();
         Notification notif = new Notification();
         notif.setProducer(prenomTf.getText());
         notif.setReceiver(nomTf.getText());
         notif.setMessage(prenomTf.getText() + " a ajouté un nouveau profil");
         ndao.add(notif);
-        
+
         SendEmailUsingGMailSMTP m = new SendEmailUsingGMailSMTP();
         m.sendMail("sedki.ketata@esprit.tn", "Nouveau Profil",
                 "Vous avez compléter avec succés votre profil");
@@ -1066,7 +1068,7 @@ public class JProfil extends javax.swing.JFrame {
 
     private void afficheProfilBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afficheProfilBtnActionPerformed
         // TODO add your handling code here:
-        ProfilDAO pdao = new ProfilDAO() ;
+        ProfilDAO pdao = new ProfilDAO();
         Profil p = new Profil();
         int id = Integer.parseInt(idProfilTf.getText());
         p = pdao.findById(id);
@@ -1076,12 +1078,12 @@ public class JProfil extends javax.swing.JFrame {
         pseudoAffiche.setText(p.getPseudo());
         professionAffiche.setText(p.getProfession());
         adresseAffiche.setText(p.getAdresse());
-        
+
 //        JFileChooser fc = new JFileChooser();
 //        fc.showOpenDialog(null);
 //        File f = fc.getSelectedFile();
         try {
-            ImageIcon ii=new ImageIcon(p.getImage());//get the image from file chooser and scale it to match JLabel size
+            ImageIcon ii = new ImageIcon(p.getImage());//get the image from file chooser and scale it to match JLabel size
             ii = new ImageIcon(ii.getImage().getScaledInstance(188, 173, BufferedImage.SCALE_SMOOTH));
             photoProfilLabel.setIcon(ii);
         } catch (Exception ex) {
@@ -1091,7 +1093,7 @@ public class JProfil extends javax.swing.JFrame {
 
     private void ajouterProfilBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterProfilBtn1ActionPerformed
         // TODO add your handling code here:
-        ProfilDAO pdao = new ProfilDAO() ;
+        ProfilDAO pdao = new ProfilDAO();
         Profil p = new Profil();
         int id = Integer.parseInt(idProfilModif.getText());
         p.setId(id);
@@ -1111,11 +1113,11 @@ public class JProfil extends javax.swing.JFrame {
 
     private void modifierAfficheBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifierAfficheBtnActionPerformed
         // TODO add your handling code here:
-        ProfilDAO pdao = new ProfilDAO() ;
+        ProfilDAO pdao = new ProfilDAO();
         int id = Integer.parseInt(idProfilModif.getText());
         Profil p = new Profil();
         p = pdao.findById(id);
-        
+
         nomTf1.setText(p.getNom());
         prenomTf1.setText(p.getPrenom());
         dateAffiche1.setDate(p.getDateNaissance());
@@ -1135,12 +1137,12 @@ public class JProfil extends javax.swing.JFrame {
         int id = Integer.parseInt(TfIdProfil.getText());
         cdao.findAllById(id);
         TbleAfficheComp.setModel(new DefaultTableModel(
-                new Object[cdao.getListeCompetence().size()][], 
+                new Object[cdao.getListeCompetence().size()][],
                 new String[]{
-                    "Id","Nom","Description"
+                    "Id", "Nom", "Description"
                 }));
-        int i = 0 ;
-        for(Competence c : cdao.getListeCompetence()){
+        int i = 0;
+        for (Competence c : cdao.getListeCompetence()) {
             TbleAfficheComp.setValueAt(c.getId(), i, 0);
             TbleAfficheComp.setValueAt(c.getNom(), i, 1);
             TbleAfficheComp.setValueAt(c.getDescription(), i, 2);
@@ -1182,7 +1184,7 @@ public class JProfil extends javax.swing.JFrame {
     private void TbleAfficheCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbleAfficheCompMouseClicked
         // TODO add your handling code here:
         Competence c = new Competence();
-        int row = TbleAfficheComp.getSelectedRow() ;
+        int row = TbleAfficheComp.getSelectedRow();
         c.setId(Integer.parseInt(TbleAfficheComp.getValueAt(row, 0).toString()));
         c.setIdProfil(Integer.parseInt(TfIdProfil.getText()));
         c.setNom(TbleAfficheComp.getValueAt(row, 1).toString());

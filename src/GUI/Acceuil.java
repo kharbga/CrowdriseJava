@@ -240,13 +240,27 @@ public class Acceuil extends javax.swing.JFrame {
     private void btgestionProjetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionProjetActionPerformed
     this.dispose();
     player.stop();
-    new GestionProjects().setVisible(true);// TODO add your handling code here:
+        try {
+            new GestionProjects().setVisible(true);
+            
+// TODO add your handling code here:
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btgestionProjetActionPerformed
 
     private void btgestionSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btgestionSolutionActionPerformed
  this.dispose();
  player.stop();
-    new SolutionGui().setVisible(true);        // TODO add your handling code here:
+        try {
+            new SolutionGuiSolver().setVisible(true);        // TODO add your handling code here:
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btgestionSolutionActionPerformed
 
     private void btMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMapActionPerformed
@@ -278,13 +292,25 @@ public class Acceuil extends javax.swing.JFrame {
     private void btDisconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDisconnexionActionPerformed
         this.dispose();
         player.stop();
-    new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btDisconnexionActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
 this.dispose();
  player.stop();
-    new SolutionGuiSubmitter().setVisible(true);          // TODO add your handling code here:
+        try {
+            new SolutionGuiSubmitter().setVisible(true);          // TODO add your handling code here:
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_button4ActionPerformed
 
     /**

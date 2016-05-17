@@ -6,8 +6,15 @@
 package GUI;
 
 import DAO.MembreDao;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import entities.Membre;
+import java.awt.Toolkit;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -18,8 +25,12 @@ public class Inscription extends javax.swing.JFrame {
     /**
      * Creates new form Inscription
      */
-    public Inscription() {
+    public Inscription() throws ParseException, UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
+
         initComponents();
+        this.setResizable(false);
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }
 
     /**
@@ -238,7 +249,13 @@ public class Inscription extends javax.swing.JFrame {
 
     private void btRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRetourActionPerformed
         this.dispose();
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btRetourActionPerformed
 
     private void btInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInscriptionActionPerformed
@@ -258,12 +275,18 @@ public class Inscription extends javax.swing.JFrame {
                     if (rbSolver.isSelected() == true) {
                         role = "a:1:{i:0;s:11:\"ROLE_SOLVER\";}";
                     } else {
-                        role = "a:1:{i:0;s:11:\"ROLE_SUBMITTER\";}";
+                        role = "a:1:{i:0;s:15:\"ROLE_SUBMITTER\";}";
                     }
                     Membre m = new Membre(txtNom.getText(), txtPrenom.getText(), txtAuthentifiant.getText(), txtpass.getText(), role);
                     mdao.add(m);
                     this.dispose();
-                    new Login().setVisible(true);
+                    try {
+                        new Login().setVisible(true);
+                    } catch (UnsupportedLookAndFeelException ex) {
+                        Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                 }
             }
@@ -304,7 +327,13 @@ public class Inscription extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inscription().setVisible(true);
+                try {
+                    new Inscription().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

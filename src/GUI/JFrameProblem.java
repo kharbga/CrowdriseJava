@@ -44,7 +44,7 @@ public class JFrameProblem extends javax.swing.JFrame {
     public JFrameProblem() {
         setTitle("CrowdRise");
         initComponents();
-        this.setResizable(false);
+
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         jTxtFldUID.setVisible(false);
         jLabelUID.setVisible(false);

@@ -24,12 +24,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import Utils.DataSource;
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 
 import entities.Categorie;
 import entities.Projet;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.sql.Date;
@@ -37,8 +39,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -52,9 +57,13 @@ public class GestionProjects extends javax.swing.JFrame {
     /**
      * Creates new form GestionProjects
      */
-    public GestionProjects() {
-        con = DataSource.getInstance().getConnection();
+    public GestionProjects() throws ParseException, UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new SyntheticaPlainLookAndFeel());
         initComponents();
+        con = DataSource.getInstance().getConnection();
+
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+
         lblname.setText(Login.session.getUsername().toString());
         tbProjet.getColumnModel().getColumn(0).setMinWidth(0);
         tbProjet.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -429,7 +438,14 @@ public class GestionProjects extends javax.swing.JFrame {
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         this.dispose();
 
-        new Acceuil().setVisible(true);        // TODO add your handling code here:
+        try {
+            new AcceuilSubmitter().setVisible(true);
+            // TODO add your handling code here:
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(GestionProjects.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(GestionProjects.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_button2ActionPerformed
 
     /**
@@ -462,7 +478,14 @@ public class GestionProjects extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionProjects().setVisible(true);
+                try {
+                    new GestionProjects().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(GestionProjects.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(GestionProjects.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
     }
